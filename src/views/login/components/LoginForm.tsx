@@ -24,7 +24,8 @@ const LoginForm = (props: any) => {
 			setLoading(true);
 			loginForm.password = md5(loginForm.password);
 			const { data } = await loginApi(loginForm);
-			setToken(data?.access_token);
+			// setToken(data?.token);
+			setToken(data?.token);
 			setTabsList([]);
 			message.success("登录成功！");
 			navigate(HOME_URL);
@@ -49,10 +50,10 @@ const LoginForm = (props: any) => {
 			autoComplete="off"
 		>
 			<Form.Item name="username" rules={[{ required: true, message: "请输入用户名" }]}>
-				<Input placeholder="用户名：admin / user" prefix={<UserOutlined />} />
+				<Input placeholder="用户名" prefix={<UserOutlined />} />
 			</Form.Item>
 			<Form.Item name="password" rules={[{ required: true, message: "请输入密码" }]}>
-				<Input.Password autoComplete="new-password" placeholder="密码：123456" prefix={<LockOutlined />} />
+				<Input.Password autoComplete="new-password" placeholder="密码" prefix={<LockOutlined />} />
 			</Form.Item>
 			<Form.Item className="login-btn">
 				<Button
