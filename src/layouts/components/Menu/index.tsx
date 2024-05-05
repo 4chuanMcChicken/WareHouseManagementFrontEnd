@@ -20,7 +20,7 @@ const menuArray = [
 	{
 		icon: "ShopOutlined",
 		title: "公司管理",
-		path: "/companyManagement/companyInfo",
+		path: "/companyManagement",
 		children: [
 			{
 				icon: "ShopOutlined",
@@ -31,6 +31,23 @@ const menuArray = [
 				icon: "ShopOutlined",
 				path: "/companyManagement/addCompany",
 				title: "添加公司"
+			}
+		]
+	},
+	{
+		icon: "AreaChartOutlined",
+		title: "出入库管理",
+		path: "/boundManagement",
+		children: [
+			{
+				icon: "AreaChartOutlined",
+				path: "/boundManagement/addInBound",
+				title: "添加入库"
+			},
+			{
+				icon: "AreaChartOutlined",
+				path: "/boundManagement/boundRecord",
+				title: "出入库记录"
 			}
 		]
 	},

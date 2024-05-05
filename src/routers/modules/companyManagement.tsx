@@ -3,8 +3,8 @@ import lazyLoad from "@/routers/utils/lazyLoad";
 import { LayoutIndex } from "@/routers/constant";
 import { RouteObject } from "@/routers/interface";
 
-// 超级表格模块
-const proTableRouter: Array<RouteObject> = [
+// 公司信息模块
+const companyRouter: Array<RouteObject> = [
 	{
 		element: <LayoutIndex />,
 		meta: {
@@ -33,4 +33,4 @@ const proTableRouter: Array<RouteObject> = [
 	}
 ];
 
-export default proTableRouter;
+export default companyRouter;
