@@ -1,6 +1,5 @@
 .container {
 	display: flex;
-	min-width: 950px;
 	height: 100%;
 	.ant-layout-sider {
 		box-sizing: border-box;
@@ -14,5 +13,12 @@
 			padding: 10px 12px;
 			overflow-x: hidden;
 		}
+	}
+}
+
+@media (max-width: 480px) {
+	.container {
+		width: 100%;
+
 	}
 }

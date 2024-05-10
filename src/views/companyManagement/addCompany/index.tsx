@@ -12,10 +12,10 @@ type FieldType = {
 const addCompany: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const onFinish: FormProps<FieldType>["onFinish"] = values => {
+	const onFinish: FormProps<FieldType>["onFinish"] = async values => {
 		try {
 			setLoading(true);
-			addCompanyInfo({ name: values.companyName || "", contactNumber: values.contactNumber || "" });
+			await addCompanyInfo({ name: values.companyName || "", contactNumber: values.contactNumber || "" });
 			message.success("添加成功！！");
 		} finally {
 			setLoading(false);
