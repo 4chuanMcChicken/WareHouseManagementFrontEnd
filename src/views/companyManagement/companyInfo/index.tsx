@@ -1,57 +1,62 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { Space, Table } from "antd";
 import { getAllCompanyInfo } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
-import ChildTest from "@/views/companyManagement/companyInfo/childTest";
-import { Button } from "antd";
 const { Column } = Table;
+import EditCompany from "./EditCompanyModal";
 
 const companyInfo: React.FC = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo[]>([]);
 
-	let ChildRef: any = useRef();
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const result = await getAllCompanyInfo();
-				setCompanyInfo(result.data?.companyInfos || []);
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
-		};
+	const [selectedCompany, setSelectedCompany] = useState<CompanyInfo | undefined>();
 
+	let ModalRef: any = useRef();
+
+	const fetchData = async () => {
+		try {
+			const result = await getAllCompanyInfo();
+			setCompanyInfo(result.data?.companyInfos || []);
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+	};
+
+	useEffect(() => {
 		fetchData(); // 调用异步函数
 	}, []);
 
-	const resClick = () => {
-		console.log("click!");
+	useEffect(() => {
+		if (ModalRef.current && selectedCompany) {
+			ModalRef.current.showModal();
+		}
+	}, [selectedCompany]);
+
+	const handleEditClick = (record: CompanyInfo) => {
+		setSelectedCompany(record);
 	};
 
-	const clickHandle = () => {
-		ChildRef.current.func();
-		ChildRef.current.setName("New Name");
+	const onUpdateSuccessHandler = async () => {
+		fetchData(); // 调用异步函数
 	};
 
 	return (
 		<div>
-			<Table dataSource={companyInfo} rowKey="contactNumber">
+			<Table dataSource={companyInfo} rowKey="name">
 				<Column title="公司名" dataIndex="name" key="companyName" />
 				<Column title="联系方式" dataIndex="contactNumber" key="contactNumber" />
+				<Column title="单价 ($/day)" dataIndex="price" key="price" />
 				<Column
-					title="Action"
+					title="操作"
 					key="action"
-					render={() => (
+					render={(text, record: CompanyInfo) => (
 						<Space size="middle">
-							<a>Delete</a>
+							<a onClick={() => handleEditClick(record)}>编辑</a>
 						</Space>
 					)}
 				/>
 			</Table>
-			<Button onClick={clickHandle} style={{ margin: "20px" }}>
-				外面的
-			</Button>
-
-			<ChildTest onRef={ChildRef} showName={"Joey"} callBackClick={resClick}></ChildTest>
+			<EditCompany onRef={ModalRef} selectedInfo={selectedCompany} onUpdateSuccess={onUpdateSuccessHandler}></EditCompany>
 		</div>
 	);
 };

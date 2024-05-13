@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import type { FormProps } from "antd";
+import { InputNumber } from "antd";
 import { Button, Form, Input } from "antd";
 import { addCompanyInfo } from "@/api/modules/common";
 import { message } from "antd";
 
 type FieldType = {
-	companyName?: string;
-	contactNumber?: string;
+	companyName: string;
+	contactNumber: string;
+	price: number;
 };
 
 const addCompany: React.FC = () => {
@@ -15,7 +17,7 @@ const addCompany: React.FC = () => {
 	const onFinish: FormProps<FieldType>["onFinish"] = async values => {
 		try {
 			setLoading(true);
-			await addCompanyInfo({ name: values.companyName || "", contactNumber: values.contactNumber || "" });
+			await addCompanyInfo({ name: values.companyName, contactNumber: values.contactNumber, price: values.price });
 			message.success("添加成功！！");
 		} finally {
 			setLoading(false);
@@ -43,6 +45,10 @@ const addCompany: React.FC = () => {
 
 				<Form.Item<FieldType> label="联系方式" name="contactNumber" rules={[{ required: true, message: "请输入联系方式!" }]}>
 					<Input />
+				</Form.Item>
+
+				<Form.Item<FieldType> label="单价 ($/day)" name="price" rules={[{ required: true, message: "请输入单价!" }]}>
+					<InputNumber min={1} />
 				</Form.Item>
 
 				<Form.Item wrapperCol={{ offset: 8, span: 16 }}>

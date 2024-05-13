@@ -3,7 +3,7 @@ import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import type { FormProps } from "antd";
 import { CompanyInfo, InBoundRecord, WareHouseInfo } from "@/api/interface/common";
 import "./index.less";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { getAllCompanyInfo, addInBoundRecord, getAllWareHouseInfo } from "@/api/modules/common";
 import { message } from "antd";
 
@@ -13,7 +13,7 @@ type FieldType = {
 	companyId: string;
 	wareHouseId: string;
 	caseAmount?: number;
-	happenTime: Moment;
+	happenTime: number;
 	comment?: string;
 	orderNumber?: string;
 };
@@ -37,7 +37,6 @@ const AddInBound: React.FC = () => {
 				console.error("Error fetching data:", error);
 			}
 		};
-
 		fetchData();
 	}, []);
 
@@ -45,7 +44,7 @@ const AddInBound: React.FC = () => {
 		try {
 			const companyId = companyFormRef.current.getFieldValue("companyId");
 			const wareHouseId = companyFormRef.current.getFieldValue("wareHouseId");
-			const happenTime = moment(values.happenTime).startOf("day").add(12, "hours").valueOf().toString();
+			const happenTime = moment(values.happenTime).startOf("day").add(12, "hours").valueOf();
 			const inBoundRecord: InBoundRecord = {
 				productName: values.productName,
 				companyId,
@@ -58,8 +57,6 @@ const AddInBound: React.FC = () => {
 			};
 
 			setLoading(true);
-			console.log(inBoundRecord);
-			console.log(inBoundRecord);
 			await addInBoundRecord(inBoundRecord);
 			message.success("添加成功！！");
 		} finally {

@@ -4,13 +4,18 @@ export interface CompanyInfo {
 	_id?: string;
 	name: string;
 	contactNumber: string;
+	price: number;
 }
 
 export interface BoundRecordInfo {
 	_id?: string;
 	happenTime: string;
 	type: string;
-	companyId: string;
+	companyName: string;
+}
+
+export interface allBoundRecordInfo {
+	boundRecords: BoundRecordInfo[];
 }
 
 export interface WareHouseInfo {
@@ -29,14 +34,8 @@ export interface InBoundRecord {
 	quantity: number;
 	companyId: string;
 	wareHouseId: string;
-	happenTime: string;
+	happenTime: number;
 	caseAmount?: number;
 	orderNumber?: string;
 	comment?: string;
-}
-
-export interface BoundRecordInfo {
-	happenTime: string;
-	type: string;
-	companyId: string;
 }
