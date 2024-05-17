@@ -51,6 +51,17 @@ const menuArray = [
 			}
 		]
 	},
+	{
+		icon: "UnorderedListOutlined",
+		title: "库存管理",
+		children: [
+			{
+				icon: "UnorderedListOutlined",
+				path: "/palletManagement/palletRecord",
+				title: "库存记录"
+			}
+		]
+	},
 	// {
 	// 	icon: "AreaChartOutlined",
 	// 	title: "数据大屏",

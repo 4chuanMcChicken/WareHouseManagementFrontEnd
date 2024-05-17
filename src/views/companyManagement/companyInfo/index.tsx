@@ -33,7 +33,8 @@ const companyInfo: React.FC = () => {
 	}, [selectedCompany]);
 
 	const handleEditClick = (record: CompanyInfo) => {
-		setSelectedCompany(record);
+		setSelectedCompany(undefined); // 先清空选中的公司
+		setTimeout(() => setSelectedCompany(record), 0); // 再设置为选中的公司
 	};
 
 	const onUpdateSuccessHandler = async () => {
