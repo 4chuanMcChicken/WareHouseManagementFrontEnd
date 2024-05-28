@@ -39,3 +39,22 @@ export interface InBoundRecord {
 	orderNumber?: string;
 	comment?: string;
 }
+
+export interface Pallet {
+	_id?: string;
+	productName: string;
+	dayIn: number;
+	companyName: string;
+	wareHouseId: string;
+	status: string;
+	inBoundRecordId: string;
+	comment?: string;
+	orderNumber?: string;
+	outBoundRecordId?: string;
+	ifCheckout: boolean;
+	dayOut?: number;
+}
+
+export interface Pallets {
+	pallets: Pallet[];
+}

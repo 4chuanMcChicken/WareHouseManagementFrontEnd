@@ -1,4 +1,11 @@
-import { AllCompanyInfo, CompanyInfo, InBoundRecord, AllWareHouseInfo, allBoundRecordInfo } from "@/api/interface/common";
+import {
+	AllCompanyInfo,
+	CompanyInfo,
+	InBoundRecord,
+	AllWareHouseInfo,
+	allBoundRecordInfo,
+	Pallets
+} from "@/api/interface/common";
 import http from "@/api";
 
 // * 获取所有公司信息
@@ -24,6 +31,11 @@ export const addInBoundRecord = (inBoundRecord: InBoundRecord) => {
 // * 获得出入库记录
 export const getBoundRecordsInfo = (type: string) => {
 	return http.get<allBoundRecordInfo>(`/common/getBoundRecords`, { type });
+};
+
+// * 获得出入库记录
+export const getPallets = (type?: string, productName?: string) => {
+	return http.get<Pallets>(`/common/getPallets`, { type, productName });
 };
 
 // // * 添加公司信息
