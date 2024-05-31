@@ -26,7 +26,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
 	useEffect(() => {
 		setTitle(props.title);
 		setModalText(props.modalText);
-	}, []);
+	}, [props]);
 
 	const handleOk = async () => {
 		try {

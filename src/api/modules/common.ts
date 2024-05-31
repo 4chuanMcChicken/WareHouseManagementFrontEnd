@@ -39,8 +39,8 @@ export const getBoundRecordsInfo = (type: string) => {
 };
 
 // * 获得出入库记录
-export const getPallets = (type?: string, productName?: string) => {
-	return http.get<Pallets>(`/common/getPallets`, { type, productName });
+export const getPallets = (productName?: string, companyId?: string) => {
+	return http.get<Pallets>(`/common/getPallets`, { productName, companyId });
 };
 
 // // * 添加公司信息
