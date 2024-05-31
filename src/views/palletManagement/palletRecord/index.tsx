@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Button, Table, Tag } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Table, Tag, message } from "antd";
 import type { TableColumnsType } from "antd";
 import { Pallet } from "@/api/interface/common";
-import { getPallets } from "@/api/modules/common";
+import { getPallets, addOutBoundRecord } from "@/api/modules/common";
 import moment from "moment";
+import ConfrimModal from "@/components/ConfirmModal";
 
 interface DataType extends Pallet {
 	key: React.Key;
@@ -22,18 +23,8 @@ const columns: TableColumnsType<DataType> = [
 	},
 	{
 		title: "仓库名称",
-		dataIndex: "wareHouseId",
-		key: "wareHouseId"
-	},
-	{
-		title: "库存状态",
-		dataIndex: "status",
-		key: "status",
-		render: (status: string) => {
-			let color = status === "inStock" ? "red" : "green";
-			let text = status === "inStock" ? "未出库" : "已出库";
-			return <Tag color={color}>{text}</Tag>;
-		}
+		dataIndex: "wareHouseName",
+		key: "wareHouseName"
 	},
 	{
 		title: "备注",
@@ -62,6 +53,16 @@ const columns: TableColumnsType<DataType> = [
 		render: (dayIn: string) => moment(parseInt(dayIn)).format("YYYY-MM-DD HH:mm:ss")
 	},
 	{
+		title: "库存状态",
+		dataIndex: "status",
+		key: "status",
+		render: (status: string) => {
+			let color = status === "inStock" ? "red" : "green";
+			let text = status === "inStock" ? "未出库" : "已出库";
+			return <Tag color={color}>{text}</Tag>;
+		}
+	},
+	{
 		title: "是否结算",
 		dataIndex: "ifCheckout",
 		key: "ifCheckout",
@@ -78,10 +79,10 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const App: React.FC = () => {
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const [loading, setLoading] = useState(false);
-
+	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+	const [selectedRows, setSelectedRows] = useState<Pallet[]>([]);
 	const [pallets, setPallets] = useState<DataType[] | undefined>();
+	let ModalRef: any = useRef();
 
 	useEffect(() => {
 		fetchData();
@@ -103,35 +104,47 @@ const App: React.FC = () => {
 		}
 	};
 
-	const start = () => {
-		setLoading(true);
-		// ajax request after empty completing
-		setTimeout(() => {
-			setSelectedRowKeys([]);
-			setLoading(false);
-		}, 1000);
-	};
-
-	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-		console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-		setSelectedRowKeys(newSelectedRowKeys);
+	const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: Pallet[]) => {
+		const stringRowKeys = newSelectedRowKeys.map(key => key.toString());
+		setSelectedRowKeys(stringRowKeys);
+		setSelectedRows(selectedRows);
 	};
 
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: onSelectChange
 	};
+
+	const comfirmOutBound = () => {
+		for (let i = 0; i < selectedRows.length; i++) {
+			if (selectedRows[i].status === "outStock") {
+				message.error("当前选中中有已出库项");
+				return; // 退出整个函数
+			}
+		}
+		if (ModalRef.current) {
+			ModalRef.current.showModal();
+		}
+	};
+
+	const handleConfirmed = async () => {
+		console.log(selectedRowKeys);
+		await addOutBoundRecord(selectedRowKeys);
+		await fetchData();
+	};
+
 	const hasSelected = selectedRowKeys.length > 0;
 
 	return (
 		<div>
 			<div style={{ marginBottom: 16 }}>
-				<Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-					Reload
+				<Button type="primary" onClick={comfirmOutBound} disabled={!hasSelected}>
+					出库
 				</Button>
 				<span style={{ marginLeft: 8 }}>{hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}</span>
 			</div>
 			<Table rowSelection={rowSelection} columns={columns} dataSource={pallets} />
+			<ConfrimModal onRef={ModalRef} title="确认出库？" onConfirm={handleConfirmed} successMessage="出库成功"></ConfrimModal>
 		</div>
 	);
 };

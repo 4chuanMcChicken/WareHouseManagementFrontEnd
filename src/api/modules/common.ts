@@ -28,6 +28,11 @@ export const addInBoundRecord = (inBoundRecord: InBoundRecord) => {
 	return http.post(`/common/addInBoundRecord`, inBoundRecord);
 };
 
+// * 添加出库记录
+export const addOutBoundRecord = (pallets: string[]) => {
+	return http.post(`/common/addOutBoundRecord`, { pallets });
+};
+
 // * 获得出入库记录
 export const getBoundRecordsInfo = (type: string) => {
 	return http.get<allBoundRecordInfo>(`/common/getBoundRecords`, { type });
