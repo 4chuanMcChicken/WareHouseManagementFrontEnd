@@ -46,7 +46,7 @@ const companyInfo: React.FC = () => {
 			<Table dataSource={companyInfo} rowKey="name">
 				<Column title="公司名" dataIndex="name" key="companyName" />
 				<Column title="联系方式" dataIndex="contactNumber" key="contactNumber" />
-				<Column title="单价 ($/day)" dataIndex="price" key="price" />
+				<Column title="单价 ($/月)" dataIndex="price" key="price" />
 				<Column
 					title="操作"
 					key="action"

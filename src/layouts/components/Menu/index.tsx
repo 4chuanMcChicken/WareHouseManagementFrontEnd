@@ -62,6 +62,17 @@ const menuArray = [
 			}
 		]
 	},
+	{
+		icon: "MoneyCollectFilled",
+		title: "账单管理",
+		children: [
+			{
+				icon: "MoneyCollectFilled",
+				path: "/billManagement/monthlyBill",
+				title: "月度账单"
+			}
+		]
+	},
 	// {
 	// 	icon: "AreaChartOutlined",
 	// 	title: "数据大屏",
