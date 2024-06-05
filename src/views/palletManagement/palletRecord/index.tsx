@@ -44,16 +44,6 @@ const columns: TableColumnsType<DataType> = [
 		dataIndex: "orderNumber",
 		key: "orderNumber"
 	},
-	// {
-	// 	title: "入库 ID",
-	// 	dataIndex: "inBoundRecordId",
-	// 	key: "inBoundRecordId"
-	// },
-	// {
-	// 	title: "出库 ID",
-	// 	dataIndex: "outBoundRecordId",
-	// 	key: "outBoundRecordId"
-	// },
 	{
 		title: "入库时间",
 		dataIndex: "dayIn",
@@ -85,20 +75,6 @@ const columns: TableColumnsType<DataType> = [
 			return <Tag color={color}>{text}</Tag>;
 		}
 	}
-	// {
-	// 	title: "是否结算",
-	// 	dataIndex: "ifCheckout",
-	// 	key: "ifCheckout",
-	// 	render: (ifCheckout: boolean) => {
-	// 		let color = ifCheckout ? "green" : "red";
-	// 		let text = ifCheckout ? "已结算" : "未结算";
-	// 		return (
-	// 			<Tag color={color} key={ifCheckout ? "checked" : "unchecked"}>
-	// 				{text}
-	// 			</Tag>
-	// 		);
-	// 	}
-	// }
 ];
 
 const App: React.FC = () => {
@@ -127,7 +103,7 @@ const App: React.FC = () => {
 			const dataWithKeys =
 				result.data?.pallets.map((pallet: Pallet, index: number) => ({
 					...pallet,
-					key: pallet._id ?? index // Assuming `id` exists in Pallet, otherwise use index as fallback
+					key: pallet._id ?? index
 				})) || [];
 			setPallets(dataWithKeys);
 		} catch (error) {

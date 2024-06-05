@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Table, Tag, message, Input } from "antd";
+import { Button, Table, Tag, message, Input, DatePicker } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
-import { Pallet } from "@/api/interface/common";
-import { getPallets, addOutBoundRecord, getAllCompanyInfo } from "@/api/modules/common";
-import { CompanyInfo } from "@/api/interface/common";
+import { MonthlyBill } from "@/api/interface/common";
+import { getMonthlyBill } from "@/api/modules/common";
 import moment from "moment";
 import ConfrimModal from "@/components/ConfirmModal";
 import "./index.less";
 
-interface DataType extends Pallet {
+interface DataType extends MonthlyBill {
 	key: React.Key;
 }
 
@@ -20,91 +19,48 @@ interface ModalInfo {
 }
 const columns: TableColumnsType<DataType> = [
 	{
-		title: "产品名称",
-		dataIndex: "productName",
-		key: "productName"
-	},
-	{
 		title: "公司名称",
 		dataIndex: "companyName",
 		key: "companyName"
 	},
 	{
-		title: "仓库名称",
-		dataIndex: "wareHouseName",
-		key: "wareHouseName"
+		title: "金额",
+		dataIndex: "amount",
+		key: "amount"
 	},
 	{
-		title: "备注",
-		dataIndex: "comment",
-		key: "comment"
+		title: "生成时间",
+		dataIndex: "createTime",
+		key: "createTime",
+		render: (createTime: string) => moment(parseInt(createTime)).format("YYYY-MM-DD HH:mm:ss")
 	},
 	{
-		title: "订单号",
-		dataIndex: "orderNumber",
-		key: "orderNumber"
-	},
-	// {
-	// 	title: "入库 ID",
-	// 	dataIndex: "inBoundRecordId",
-	// 	key: "inBoundRecordId"
-	// },
-	// {
-	// 	title: "出库 ID",
-	// 	dataIndex: "outBoundRecordId",
-	// 	key: "outBoundRecordId"
-	// },
-	{
-		title: "入库时间",
-		dataIndex: "dayIn",
-		key: "dayIn",
-		sorter: {
-			compare: (a, b) => a.dayIn - b.dayIn
-		},
-		render: (dayIn: string) => moment(parseInt(dayIn)).format("YYYY-MM-DD HH:mm:ss")
+		title: "账单周期",
+		dataIndex: "billedMonth",
+		key: "billedMonth"
 	},
 	{
-		title: "出库时间",
-		dataIndex: "dayOut",
-		key: "dayOut",
-		render: (dayOut: string) => {
-			if (dayOut) {
-				return moment(parseInt(dayOut)).format("YYYY-MM-DD HH:mm:ss");
-			} else {
-				return null;
-			}
-		}
+		title: "收费单价（ /月 ）",
+		dataIndex: "unitPrice",
+		key: "unitPrice"
 	},
 	{
-		title: "库存状态",
-		dataIndex: "status",
-		key: "status",
-		render: (status: string) => {
-			let color = status === "inStock" ? "red" : "green";
-			let text = status === "inStock" ? "未出库" : "已出库";
+		title: "是否支付",
+		dataIndex: "ifPaid",
+		key: "ifPaid",
+		render: (ifPaid: boolean) => {
+			let color = ifPaid === false ? "red" : "green";
+			let text = ifPaid === false ? "未支付" : "已支付";
 			return <Tag color={color}>{text}</Tag>;
 		}
 	}
-	// {
-	// 	title: "是否结算",
-	// 	dataIndex: "ifCheckout",
-	// 	key: "ifCheckout",
-	// 	render: (ifCheckout: boolean) => {
-	// 		let color = ifCheckout ? "green" : "red";
-	// 		let text = ifCheckout ? "已结算" : "未结算";
-	// 		return (
-	// 			<Tag color={color} key={ifCheckout ? "checked" : "unchecked"}>
-	// 				{text}
-	// 			</Tag>
-	// 		);
-	// 	}
-	// }
 ];
 
 const App: React.FC = () => {
+	const { RangePicker } = DatePicker;
+
 	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-	const [selectedRows, setSelectedRows] = useState<Pallet[]>([]);
-	const [pallets, setPallets] = useState<DataType[] | undefined>();
+	const [selectedRows, setSelectedRows] = useState<MonthlyBill[]>([]);
 	const [modalInfo, setModalInfo] = useState<ModalInfo>({
 		title: "",
 		successMessage: "",
@@ -112,8 +68,8 @@ const App: React.FC = () => {
 	});
 	let ModalRef: any = useRef();
 	const companyNameRef = useRef<InputRef>(null);
-	const productNameRef = useRef<InputRef>(null);
-	const [companyInfo, setCompanyInfo] = useState<CompanyInfo[]>([]);
+	const timeRef = useRef<any>(null);
+	const [monthlyBills, setMonthlyBills] = useState<DataType[] | undefined>([]);
 
 	useEffect(() => {
 		fetchData();
@@ -121,21 +77,19 @@ const App: React.FC = () => {
 
 	const fetchData = async () => {
 		try {
-			const resultComp = await getAllCompanyInfo();
-			setCompanyInfo(resultComp.data!.companyInfos);
-			const result = await getPallets();
+			const resultBills = await getMonthlyBill();
 			const dataWithKeys =
-				result.data?.pallets.map((pallet: Pallet, index: number) => ({
-					...pallet,
-					key: pallet._id ?? index // Assuming `id` exists in Pallet, otherwise use index as fallback
+				resultBills.data?.monthlyBills.map((monthlyBill: MonthlyBill, index: number) => ({
+					...monthlyBill,
+					key: monthlyBill._id ?? index
 				})) || [];
-			setPallets(dataWithKeys);
+			setMonthlyBills(dataWithKeys);
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}
 	};
 
-	const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: Pallet[]) => {
+	const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: MonthlyBill[]) => {
 		const stringRowKeys = newSelectedRowKeys.map(key => key.toString());
 		setSelectedRowKeys(stringRowKeys);
 		setSelectedRows(selectedRows);
@@ -148,8 +102,8 @@ const App: React.FC = () => {
 
 	const confirmOutBound = () => {
 		for (let i = 0; i < selectedRows.length; i++) {
-			if (selectedRows[i].status === "outStock") {
-				message.error("当前选中中有已出库项");
+			if (selectedRows[i].ifPaid === true) {
+				message.error("此账单已支付");
 				return; // 退出整个函数
 			}
 		}
@@ -163,54 +117,35 @@ const App: React.FC = () => {
 		}
 	};
 
-	const confirmCancleOutBound = () => {
-		for (let i = 0; i < selectedRows.length; i++) {
-			if (selectedRows[i].ifCheckout === true || selectedRows[i].status === "inStock") {
-				message.error("当前选择不能取消出库");
-				return; // 退出整个函数
-			}
-		}
-		if (ModalRef.current) {
-			setModalInfo({
-				title: "确认取消出库? ",
-				successMessage: "取消出库成功",
-				onConfirm: handleConfirmed
-			});
-			ModalRef.current.showModal();
-		}
-	};
-
 	const handleConfirmed = async () => {
 		console.log(selectedRowKeys);
-		await addOutBoundRecord(selectedRowKeys);
 		await fetchData();
 	};
 
-	const handleSearch = async () => {
-		try {
-			console.log(companyInfo);
-			const companyName = companyNameRef.current?.input?.value || undefined;
-			const productName = productNameRef.current?.input?.value || undefined;
-			const company = companyInfo.find(company => company.name === companyName);
-			const companyId = company ? company._id : null;
-			if (!companyId) {
-				message.error("未找到匹配的公司名称");
-				return;
-			}
-			console.log(productName);
+	// const handleSearch = async () => {
+	// 	try {
+	// 		const companyName = companyNameRef.current?.input?.value || undefined;
+	// 		const productName = productNameRef.current?.input?.value || undefined;
+	// 		const company = companyInfo.find(company => company.name === companyName);
+	// 		const companyId = company ? company._id : null;
+	// 		if (!companyId) {
+	// 			message.error("未找到匹配的公司名称");
+	// 			return;
+	// 		}
+	// 		console.log(productName);
 
-			const result = await getPallets(productName, companyId);
-			const dataWithKeys =
-				result.data?.pallets.map((pallet: Pallet, index: number) => ({
-					...pallet,
-					key: pallet._id ?? index // Assuming `id` exists in Pallet, otherwise use index as fallback
-				})) || [];
-			setPallets(dataWithKeys);
-		} catch (error) {
-			console.error("Error fetching data:", error);
-		}
-		// You can add your search logic here
-	};
+	// 		const result = await getPallets(productName, companyId);
+	// 		const dataWithKeys =
+	// 			result.data?.pallets.map((pallet: Pallet, index: number) => ({
+	// 				...pallet,
+	// 				key: pallet._id ?? index // Assuming `id` exists in Pallet, otherwise use index as fallback
+	// 			})) || [];
+	// 		setPallets(dataWithKeys);
+	// 	} catch (error) {
+	// 		console.error("Error fetching data:", error);
+	// 	}
+	// 	// You can add your search logic here
+	// };
 
 	const hasSelected = selectedRowKeys.length > 0;
 
@@ -224,11 +159,10 @@ const App: React.FC = () => {
 							<Input ref={companyNameRef} placeholder="请输入公司名称" />
 						</div>
 						<div className="input-container-product">
-							<span>产品名称:</span>
-							<Input ref={productNameRef} placeholder="请输入产品名称" className="input-product" />
+							<RangePicker ref={timeRef} />
 						</div>
 					</div>
-					<Button type="primary" onClick={handleSearch} style={{ float: "right" }}>
+					<Button type="primary" style={{ float: "right" }}>
 						搜索
 					</Button>
 				</div>
@@ -236,13 +170,10 @@ const App: React.FC = () => {
 			<div className="table-container">
 				<div className="button-container">
 					<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "10px" }}>
-						出库
-					</Button>
-					<Button type="primary" onClick={confirmCancleOutBound} disabled={!hasSelected}>
-						撤销出库
+						确认支付
 					</Button>
 				</div>
-				<Table rowSelection={rowSelection} columns={columns} dataSource={pallets} />
+				<Table rowSelection={rowSelection} columns={columns} dataSource={monthlyBills} />
 				<ConfrimModal
 					onRef={ModalRef}
 					title={modalInfo!.title}

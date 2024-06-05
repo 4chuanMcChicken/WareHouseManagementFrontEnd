@@ -4,7 +4,8 @@ import {
 	InBoundRecord,
 	AllWareHouseInfo,
 	allBoundRecordInfo,
-	Pallets
+	Pallets,
+	MonthlyBills
 } from "@/api/interface/common";
 import http from "@/api";
 
@@ -41,6 +42,11 @@ export const getBoundRecordsInfo = (type: string) => {
 // * 获得出入库记录
 export const getPallets = (productName?: string, companyId?: string) => {
 	return http.get<Pallets>(`/common/getPallets`, { productName, companyId });
+};
+
+// * 获得月度账单记录
+export const getMonthlyBill = (companyId?: string, ifPaid?: boolean) => {
+	return http.get<MonthlyBills>(`/common/getMonthlyBill`, { companyId, ifPaid });
 };
 
 // // * 添加公司信息

@@ -58,3 +58,19 @@ export interface Pallet {
 export interface Pallets {
 	pallets: Pallet[];
 }
+
+export interface MonthlyBill {
+	_id?: string;
+	companyName: string;
+	amount: number;
+	createTime: number;
+	billedPallets: string[];
+	billedMonth: string;
+	billedMonthTimestamp: string;
+	unitPrice: number;
+	ifPaid: boolean;
+}
+
+export interface MonthlyBills {
+	monthlyBills: MonthlyBill[];
+}
