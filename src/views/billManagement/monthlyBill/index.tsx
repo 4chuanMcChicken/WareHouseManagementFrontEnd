@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Table, Tag, message, Input, DatePicker } from "antd";
+import { Button, Table, Tag, message, Input, DatePicker, Space } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { MonthlyBill } from "@/api/interface/common";
@@ -17,46 +17,56 @@ interface ModalInfo {
 	successMessage: string;
 	onConfirm: () => Promise<void>;
 }
-const columns: TableColumnsType<DataType> = [
-	{
-		title: "公司名称",
-		dataIndex: "companyName",
-		key: "companyName"
-	},
-	{
-		title: "金额",
-		dataIndex: "amount",
-		key: "amount"
-	},
-	{
-		title: "生成时间",
-		dataIndex: "createTime",
-		key: "createTime",
-		render: (createTime: string) => moment(parseInt(createTime)).format("YYYY-MM-DD HH:mm:ss")
-	},
-	{
-		title: "账单周期",
-		dataIndex: "billedMonth",
-		key: "billedMonth"
-	},
-	{
-		title: "收费单价（ /月 ）",
-		dataIndex: "unitPrice",
-		key: "unitPrice"
-	},
-	{
-		title: "是否支付",
-		dataIndex: "ifPaid",
-		key: "ifPaid",
-		render: (ifPaid: boolean) => {
-			let color = ifPaid === false ? "red" : "green";
-			let text = ifPaid === false ? "未支付" : "已支付";
-			return <Tag color={color}>{text}</Tag>;
-		}
-	}
-];
 
 const App: React.FC = () => {
+	const columns: TableColumnsType<DataType> = [
+		{
+			title: "公司名称",
+			dataIndex: "companyName",
+			key: "companyName"
+		},
+		{
+			title: "金额",
+			dataIndex: "amount",
+			key: "amount"
+		},
+		{
+			title: "生成时间",
+			dataIndex: "createTime",
+			key: "createTime",
+			render: (createTime: string) => moment(parseInt(createTime)).format("YYYY-MM-DD HH:mm:ss")
+		},
+		{
+			title: "账单周期",
+			dataIndex: "billedMonth",
+			key: "billedMonth"
+		},
+		{
+			title: "收费单价（ /月 ）",
+			dataIndex: "unitPrice",
+			key: "unitPrice"
+		},
+		{
+			title: "是否支付",
+			dataIndex: "ifPaid",
+			key: "ifPaid",
+			render: (ifPaid: boolean) => {
+				let color = ifPaid === false ? "red" : "green";
+				let text = ifPaid === false ? "未支付" : "已支付";
+				return <Tag color={color}>{text}</Tag>;
+			}
+		},
+		{
+			title: "操作",
+			key: "action",
+			render: (_: any, record: DataType) => (
+				<Space size="middle">
+					<a onClick={() => checkDetail(record)}>查看详情</a>
+				</Space>
+			)
+		}
+	];
+
 	const { RangePicker } = DatePicker;
 
 	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -75,6 +85,9 @@ const App: React.FC = () => {
 		fetchData();
 	}, []);
 
+	const checkDetail = (record: DataType) => {
+		console.log(record);
+	};
 	const fetchData = async () => {
 		try {
 			const resultBills = await getMonthlyBill();
