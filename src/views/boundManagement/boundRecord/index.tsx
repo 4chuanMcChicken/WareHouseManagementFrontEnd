@@ -32,6 +32,8 @@ const BoundRecord: React.FC = () => {
 				/>
 				<Column title="类型" dataIndex="type" key="type" render={type => (type === "inBound" ? "入库" : "出库")} />
 				<Column title="公司" dataIndex="companyName" key="companyName" />
+				<Column title="产品名称" dataIndex="productName" key="productName" />
+				<Column title="板数" dataIndex="quantity" key="quantity" />
 			</Table>
 		</div>
 	);

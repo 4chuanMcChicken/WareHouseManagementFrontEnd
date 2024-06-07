@@ -12,6 +12,8 @@ export interface BoundRecordInfo {
 	happenTime: string;
 	type: string;
 	companyName: string;
+	productName: string;
+	quantity: number;
 }
 
 export interface allBoundRecordInfo {
@@ -60,7 +62,7 @@ export interface Pallets {
 }
 
 export interface MonthlyBill {
-	_id?: string;
+	_id: string;
 	companyName: string;
 	amount: number;
 	createTime: number;
@@ -69,6 +71,21 @@ export interface MonthlyBill {
 	billedMonthTimestamp: string;
 	unitPrice: number;
 	ifPaid: boolean;
+}
+
+export interface MonthlyBillDetail {
+	totalAmount: number;
+	companyName: string;
+	createTime: number;
+	details: DetailContent[];
+}
+
+export interface DetailContent {
+	productName: string;
+	dayIn: number;
+	totalPalletNumber: number;
+	price: number;
+	amount: number;
 }
 
 export interface MonthlyBills {

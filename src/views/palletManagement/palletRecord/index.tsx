@@ -6,7 +6,7 @@ import { Pallet } from "@/api/interface/common";
 import { getPallets, addOutBoundRecord, getAllCompanyInfo } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
 import moment from "moment";
-import ConfrimModal from "@/components/ConfirmModal";
+import ConfirmModal from "@/components/ConfirmModal";
 import "./index.less";
 
 interface DataType extends Pallet {
@@ -219,12 +219,12 @@ const App: React.FC = () => {
 					</Button>
 				</div>
 				<Table rowSelection={rowSelection} columns={columns} dataSource={pallets} />
-				<ConfrimModal
+				<ConfirmModal
 					onRef={ModalRef}
 					title={modalInfo!.title}
 					onConfirm={modalInfo!.onConfirm}
 					successMessage={modalInfo!.successMessage}
-				></ConfrimModal>
+				></ConfirmModal>
 			</div>
 		</>
 	);

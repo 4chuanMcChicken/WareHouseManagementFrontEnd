@@ -5,7 +5,8 @@ import {
 	AllWareHouseInfo,
 	allBoundRecordInfo,
 	Pallets,
-	MonthlyBills
+	MonthlyBills,
+	MonthlyBillDetail
 } from "@/api/interface/common";
 import http from "@/api";
 
@@ -47,6 +48,11 @@ export const getPallets = (productName?: string, companyId?: string) => {
 // * 获得月度账单记录
 export const getMonthlyBill = (companyId?: string, ifPaid?: boolean) => {
 	return http.get<MonthlyBills>(`/common/getMonthlyBill`, { companyId, ifPaid });
+};
+
+// * 获得某张月度账单详情
+export const getMonthlyBillDetail = (billId: string) => {
+	return http.get<MonthlyBillDetail>(`/common/getMonthlyBillDetail`, { billId });
 };
 
 // // * 添加公司信息
