@@ -3,7 +3,7 @@ import { Button, Table, Tag, message, Input, DatePicker, Space, Descriptions } f
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { MonthlyBill, MonthlyBillDetail, DetailContent } from "@/api/interface/common";
-import { getMonthlyBill, getMonthlyBillDetail } from "@/api/modules/common";
+import { getMonthlyBill, getMonthlyBillDetail, confirmMonthlyBillPaid } from "@/api/modules/common";
 import moment from "moment";
 import ConfirmModal from "@/components/ConfirmModal";
 import useExportExcel from "@/hooks/useExportExcel"; // 导入自定义 hook
@@ -198,7 +198,8 @@ const App: React.FC = () => {
 	};
 
 	const handleConfirmed = async () => {
-		console.log(selectedRowKeys);
+		await confirmMonthlyBillPaid(selectedRowKeys[0]);
+		setSelectedRowKeys([]);
 		await fetchData();
 	};
 

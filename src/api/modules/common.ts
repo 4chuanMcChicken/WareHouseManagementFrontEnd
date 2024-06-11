@@ -55,6 +55,10 @@ export const getMonthlyBillDetail = (billId: string) => {
 	return http.get<MonthlyBillDetail>(`/common/getMonthlyBillDetail`, { billId });
 };
 
+export const confirmMonthlyBillPaid = (billId: string) => {
+	return http.post(`/common/confirmMonthlyBillPaid`, { billId });
+};
+
 // // * 添加公司信息
 // export const deleteCompany = (id: string) => {
 // 	return http.post(`/common/deleteCompany`, { id });

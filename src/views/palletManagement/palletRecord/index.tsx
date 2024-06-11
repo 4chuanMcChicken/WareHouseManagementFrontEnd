@@ -159,6 +159,7 @@ const App: React.FC = () => {
 	const handleConfirmed = async () => {
 		console.log(selectedRowKeys);
 		await addOutBoundRecord(selectedRowKeys);
+		setSelectedRowKeys([]);
 		await fetchData();
 	};
 
