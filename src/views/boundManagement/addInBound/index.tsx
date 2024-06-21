@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select, Card } from "antd";
 import type { FormProps } from "antd";
 import { CompanyInfo, InBoundRecord, WareHouseInfo } from "@/api/interface/common";
 import "./index.less";
@@ -71,7 +71,7 @@ const AddInBound: React.FC = () => {
 
 	return (
 		<div>
-			<div>
+			<Card>
 				<Form
 					form={form}
 					labelCol={{ span: 4 }}
@@ -123,7 +123,7 @@ const AddInBound: React.FC = () => {
 						</Button>
 					</Form.Item>
 				</Form>
-			</div>
+			</Card>
 		</div>
 	);
 };

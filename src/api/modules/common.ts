@@ -59,6 +59,11 @@ export const confirmMonthlyBillPaid = (billId: string) => {
 	return http.post(`/common/confirmMonthlyBillPaid`, { billId });
 };
 
+// * 撤销出库
+export const revokeOutBound = (pallets: string[]) => {
+	return http.post(`/common/revokeOutBound`, { pallets });
+};
+
 // // * 添加公司信息
 // export const deleteCompany = (id: string) => {
 // 	return http.post(`/common/deleteCompany`, { id });

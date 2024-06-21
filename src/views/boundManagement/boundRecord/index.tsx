@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { BoundRecordInfo } from "@/api/interface/common";
 import { getBoundRecordsInfo } from "@/api/modules/common";
 import moment from "moment";
@@ -30,7 +30,16 @@ const BoundRecord: React.FC = () => {
 					key="happenTime"
 					render={happenTime => moment(parseInt(happenTime)).format("YYYY-MM-DD HH:mm:ss")}
 				/>
-				<Column title="类型" dataIndex="type" key="type" render={type => (type === "inBound" ? "入库" : "出库")} />
+				<Column
+					title="类型"
+					dataIndex="type"
+					key="type"
+					render={type => {
+						let color = type === "inBound" ? "green" : "blue";
+						let text = type === "inBound" ? "入库" : "出库";
+						return <Tag color={color}>{text}</Tag>;
+					}}
+				/>{" "}
 				<Column title="公司" dataIndex="companyName" key="companyName" />
 				<Column title="产品名称" dataIndex="productName" key="productName" />
 				<Column title="板数" dataIndex="quantity" key="quantity" />

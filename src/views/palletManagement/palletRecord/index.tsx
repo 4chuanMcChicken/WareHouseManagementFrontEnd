@@ -3,7 +3,7 @@ import { Button, Table, Tag, message, Input } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { Pallet } from "@/api/interface/common";
-import { getPallets, addOutBoundRecord, getAllCompanyInfo } from "@/api/modules/common";
+import { getPallets, addOutBoundRecord, getAllCompanyInfo, revokeOutBound } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
 import moment from "moment";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -70,7 +70,7 @@ const columns: TableColumnsType<DataType> = [
 		dataIndex: "status",
 		key: "status",
 		render: (status: string) => {
-			let color = status === "inStock" ? "red" : "green";
+			let color = status === "inStock" ? "green" : "blue";
 			let text = status === "inStock" ? "未出库" : "已出库";
 			return <Tag color={color}>{text}</Tag>;
 		}
@@ -123,6 +123,13 @@ const App: React.FC = () => {
 	};
 
 	const confirmOutBound = () => {
+		const firstItem = selectedRows[0];
+		const { companyName: firstCompanyName, productName: firstProductName } = firstItem;
+
+		if (!selectedRows.every(item => item.companyName === firstCompanyName && item.productName === firstProductName)) {
+			message.error("每次出库只能选择同一家公司的同一种物品");
+			return; // 退出整个函数
+		}
 		for (let i = 0; i < selectedRows.length; i++) {
 			if (selectedRows[i].status === "outStock") {
 				message.error("当前选中中有已出库项");
@@ -150,15 +157,20 @@ const App: React.FC = () => {
 			setModalInfo({
 				title: "确认取消出库? ",
 				successMessage: "取消出库成功",
-				onConfirm: handleConfirmed
+				onConfirm: handleRevokeConfirmed
 			});
 			ModalRef.current.showModal();
 		}
 	};
 
 	const handleConfirmed = async () => {
-		console.log(selectedRowKeys);
 		await addOutBoundRecord(selectedRowKeys);
+		setSelectedRowKeys([]);
+		await fetchData();
+	};
+
+	const handleRevokeConfirmed = async () => {
+		await revokeOutBound(selectedRowKeys);
 		setSelectedRowKeys([]);
 		await fetchData();
 	};
@@ -212,7 +224,7 @@ const App: React.FC = () => {
 			</div>
 			<div className="table-container">
 				<div className="button-container">
-					<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "10px" }}>
+					<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "30px" }}>
 						出库
 					</Button>
 					<Button type="primary" onClick={confirmCancleOutBound} disabled={!hasSelected}>
