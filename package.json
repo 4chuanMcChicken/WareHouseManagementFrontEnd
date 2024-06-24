@@ -5,9 +5,9 @@
 	"scripts": {
 		"dev": "vite",
 		"serve": "vite",
-		"build:dev": "tsc && vite build --mode development",
-		"build:test": "tsc && vite build --mode test",
-		"build:pro": "tsc && vite build --mode production",
+		"build:dev": "vite build --mode development",
+		"build:test": "vite build --mode test",
+		"build:pro": "vite build --mode production",
 		"preview": "vite preview",
 		"lint:eslint": "eslint --fix --ext .js,.ts,.tsx ./src",
 		"lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,html,md}\"",
