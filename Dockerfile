@@ -19,6 +19,9 @@ RUN npm run build:pro
 # Use an existing nginx image as a base image.
 FROM nginx:1.13.0
 
+# Copy built application files to the nginx html directory
+COPY --from=build /app/dist /usr/share/nginx/html
+
 # Expose port 80 and 443
 EXPOSE 80
 EXPOSE 443
