@@ -32,7 +32,7 @@ export interface AllCompanyInfo {
 }
 
 export interface InBoundRecord {
-	productName: string;
+	productId: string;
 	quantity: number;
 	companyId: string;
 	wareHouseId: string;
@@ -44,7 +44,7 @@ export interface InBoundRecord {
 
 export interface Pallet {
 	_id?: string;
-	productName: string;
+	productId: string;
 	dayIn: number;
 	companyName: string;
 	wareHouseId: string;
@@ -81,7 +81,7 @@ export interface MonthlyBillDetail {
 }
 
 export interface DetailContent {
-	productName: string;
+	productId: string;
 	dayIn: number;
 	totalPalletNumber: number;
 	price: number;
@@ -90,4 +90,15 @@ export interface DetailContent {
 
 export interface MonthlyBills {
 	monthlyBills: MonthlyBill[];
+}
+
+export interface Product {
+	_id: string;
+	name: string;
+	companyId: string;
+	description?: string;
+}
+
+export interface Products {
+	productInfos: Product[];
 }

@@ -177,7 +177,6 @@ const App: React.FC = () => {
 
 	const handleSearch = async () => {
 		try {
-			console.log(companyInfo);
 			const companyName = companyNameRef.current?.input?.value || undefined;
 			const productName = productNameRef.current?.input?.value || undefined;
 			const company = companyInfo.find(company => company.name === companyName);
@@ -186,7 +185,6 @@ const App: React.FC = () => {
 				message.error("未找到匹配的公司名称");
 				return;
 			}
-			console.log(productName);
 
 			const result = await getPallets(productName, companyId);
 			const dataWithKeys =

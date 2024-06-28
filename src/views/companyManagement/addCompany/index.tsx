@@ -54,7 +54,7 @@ const addCompany: React.FC = () => {
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
 						<Button type="primary" htmlType="submit" loading={loading}>
-							Submit
+							提交
 						</Button>
 					</Form.Item>
 				</Form>

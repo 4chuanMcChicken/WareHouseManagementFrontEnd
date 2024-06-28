@@ -54,7 +54,7 @@ const BasicForm = () => {
 				<Form.Item wrapperCol={{ offset: 1 }}>
 					<Space>
 						<Button type="primary" htmlType="submit">
-							Submit
+							提交
 						</Button>
 						<Button htmlType="button" onClick={onReset}>
 							Reset

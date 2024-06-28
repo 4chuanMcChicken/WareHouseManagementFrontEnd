@@ -6,8 +6,10 @@ import {
 	allBoundRecordInfo,
 	Pallets,
 	MonthlyBills,
-	MonthlyBillDetail
+	MonthlyBillDetail,
+	Product
 } from "@/api/interface/common";
+import { ResPage } from "@/api/interface/index";
 import http from "@/api";
 
 // * 获取所有公司信息
@@ -62,6 +64,16 @@ export const confirmMonthlyBillPaid = (billId: string) => {
 // * 撤销出库
 export const revokeOutBound = (pallets: string[]) => {
 	return http.post(`/common/revokeOutBound`, { pallets });
+};
+
+// * 添加货物
+export const addProduct = (name: string, companyId: String, description: string) => {
+	return http.post(`/common/addProduct`, { name, companyId, description });
+};
+
+// * 查询货物
+export const getProductInfo = (page: number, limit: number, companyName?: string) => {
+	return http.get<ResPage<Product>>(`/common/getProductInfo`, { page, limit, companyName });
 };
 
 // // * 添加公司信息

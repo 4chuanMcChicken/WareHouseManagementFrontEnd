@@ -35,6 +35,23 @@ const menuArray = [
 		]
 	},
 	{
+		icon: "ShoppingOutlined",
+		title: "货物管理",
+		path: "/productManagement",
+		children: [
+			{
+				icon: "ShoppingOutlined",
+				path: "/productManagement/productInfo",
+				title: "货物信息"
+			},
+			{
+				icon: "ShoppingOutlined",
+				path: "/productManagement/addProduct",
+				title: "添加货物"
+			}
+		]
+	},
+	{
 		icon: "AreaChartOutlined",
 		title: "出入库管理",
 		path: "/boundManagement",
