@@ -57,9 +57,14 @@ const menuArray = [
 		path: "/boundManagement",
 		children: [
 			{
-				icon: "AreaChartOutlined",
+				icon: "UploadOutlined",
 				path: "/boundManagement/addInBound",
 				title: "添加入库"
+			},
+			{
+				icon: "ToolOutlined",
+				path: "/boundManagement/smartOutBound",
+				title: "智能出库"
 			},
 			{
 				icon: "AreaChartOutlined",

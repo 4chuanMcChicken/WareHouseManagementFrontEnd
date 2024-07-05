@@ -58,7 +58,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
 				onCancel={handleCancel}
 				destroyOnClose={true}
 			>
-				<p>{modalText}</p>
+				<p style={{ whiteSpace: "pre-wrap" }}>{modalText}</p>
 			</Modal>
 		</>
 	);

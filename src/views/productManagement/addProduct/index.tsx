@@ -40,7 +40,7 @@ const AddProduct: React.FC = () => {
 	};
 
 	return (
-		<Card>
+		<Card title="新增货物">
 			<Form {...layout} form={form} name="control-hooks" onFinish={onFinish} style={{ maxWidth: 600 }}>
 				<Form.Item name="companyName" label="公司名称" rules={[{ required: true }]}>
 					<Select placeholder="选择公司" allowClear>

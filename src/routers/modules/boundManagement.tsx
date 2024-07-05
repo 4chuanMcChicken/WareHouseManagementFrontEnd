@@ -21,6 +21,15 @@ const boundRouter: Array<RouteObject> = [
 				}
 			},
 			{
+				path: "/boundManagement/smartOutBound",
+				element: lazyLoad(React.lazy(() => import("@/views/boundManagement/smartOutBound/index"))),
+				meta: {
+					requiresAuth: true,
+					title: "智能出库",
+					key: "smartOutBound"
+				}
+			},
+			{
 				path: "/boundManagement/boundRecord",
 				element: lazyLoad(React.lazy(() => import("@/views/boundManagement/boundRecord/index"))),
 				meta: {

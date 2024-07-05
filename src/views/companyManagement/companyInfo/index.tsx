@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import { Space, Table } from "antd";
+import { Card, Space, Table } from "antd";
 import { getAllCompanyInfo } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
 const { Column } = Table;
@@ -43,21 +43,23 @@ const companyInfo: React.FC = () => {
 
 	return (
 		<div>
-			<Table dataSource={companyInfo} rowKey="name">
-				<Column title="公司名" dataIndex="name" key="companyName" />
-				<Column title="联系方式" dataIndex="contactNumber" key="contactNumber" />
-				<Column title="单价 ($/月)" dataIndex="price" key="price" />
-				<Column
-					title="操作"
-					key="action"
-					render={(text, record: CompanyInfo) => (
-						<Space size="middle">
-							<a onClick={() => handleEditClick(record)}>编辑</a>
-						</Space>
-					)}
-				/>
-			</Table>
-			<EditCompany onRef={ModalRef} selectedInfo={selectedCompany} onUpdateSuccess={onUpdateSuccessHandler}></EditCompany>
+			<Card title="公司管理">
+				<Table dataSource={companyInfo} rowKey="name">
+					<Column title="公司名" dataIndex="name" key="companyName" />
+					<Column title="联系方式" dataIndex="contactNumber" key="contactNumber" />
+					<Column title="单价 ($/月)" dataIndex="price" key="price" />
+					<Column
+						title="操作"
+						key="action"
+						render={(text, record: CompanyInfo) => (
+							<Space size="middle">
+								<a onClick={() => handleEditClick(record)}>编辑</a>
+							</Space>
+						)}
+					/>
+				</Table>
+				<EditCompany onRef={ModalRef} selectedInfo={selectedCompany} onUpdateSuccess={onUpdateSuccessHandler}></EditCompany>
+			</Card>
 		</div>
 	);
 };

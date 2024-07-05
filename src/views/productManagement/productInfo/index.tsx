@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Table, TablePaginationConfig, Input, Button } from "antd";
+import { Table, TablePaginationConfig, Input, Button, Card } from "antd";
 import { getProductInfo } from "@/api/modules/common";
 import { Product } from "@/api/interface/common";
 import type { InputRef } from "antd";
@@ -53,8 +53,8 @@ const ProductInfo: React.FC = () => {
 				<div className="search-bar">
 					<div className="search-bar-left">
 						<div className="input-container">
-							<span>公司名称:</span>
-							<Input ref={companyNameRef} placeholder="请输入公司名称" />
+							<span>货物名称:</span>
+							<Input ref={companyNameRef} placeholder="请输入货物名称" />
 						</div>
 					</div>
 					<Button type="primary" onClick={handleSearch} style={{ float: "right" }}>
@@ -62,22 +62,25 @@ const ProductInfo: React.FC = () => {
 					</Button>
 				</div>
 			</div>
-			<Table
-				dataSource={productInfo}
-				rowKey="name"
-				pagination={{
-					current: currentPage,
-					pageSize: pageSize,
-					total: total,
-					showSizeChanger: true,
-					pageSizeOptions: ["10", "20", "50", "100"]
-				}}
-				onChange={handleTableChange}
-			>
-				<Column title="公司名" dataIndex="companyName" key="companyName" />
-				<Column title="货物名" dataIndex="name" key="name" />
-				<Column title="描述" dataIndex="description" key="description" />
-			</Table>
+
+			<Card title="货物管理" style={{ marginBottom: "40px" }}>
+				<Table
+					dataSource={productInfo}
+					rowKey="name"
+					pagination={{
+						current: currentPage,
+						pageSize: pageSize,
+						total: total,
+						showSizeChanger: true,
+						pageSizeOptions: ["10", "20", "50", "100"]
+					}}
+					onChange={handleTableChange}
+				>
+					<Column title="公司名" dataIndex="companyName" key="companyName" />
+					<Column title="货物名" dataIndex="name" key="name" />
+					<Column title="描述" dataIndex="description" key="description" />
+				</Table>
+			</Card>
 		</div>
 	);
 };

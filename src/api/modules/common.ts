@@ -72,8 +72,13 @@ export const addProduct = (name: string, companyId: String, description: string)
 };
 
 // * 查询货物
-export const getProductInfo = (page: number, limit: number, companyName?: string) => {
-	return http.get<ResPage<Product>>(`/common/getProductInfo`, { page, limit, companyName });
+export const getProductInfo = (page: number, limit: number, companyName?: string, wareHouseName?: string) => {
+	return http.get<ResPage<Product>>(`/common/getProductInfo`, { page, limit, companyName, wareHouseName });
+};
+
+// * 智能出库
+export const smartOutBound = (productId: string, quantity: number, type: string, happenTime: string) => {
+	return http.post(`/common/smartOutBound`, { productId, quantity, type, happenTime });
 };
 
 // // * 添加公司信息

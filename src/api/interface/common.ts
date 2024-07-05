@@ -45,9 +45,11 @@ export interface InBoundRecord {
 export interface Pallet {
 	_id?: string;
 	productId: string;
+	productName: string;
 	dayIn: number;
 	companyName: string;
-	wareHouseId: string;
+	// wareHouseId: string;
+	wareHouseName?: string;
 	status: string;
 	inBoundRecordId: string;
 	comment?: string;
@@ -78,14 +80,19 @@ export interface MonthlyBillDetail {
 	companyName: string;
 	createTime: number;
 	details: DetailContent[];
+	caseAmount: number;
+	palletAmount: number;
 }
 
 export interface DetailContent {
+	_id: string;
 	productId: string;
-	dayIn: number;
-	totalPalletNumber: number;
+	dayIn?: number;
+	quantity: number;
 	price: number;
 	amount: number;
+	happenTime?: number;
+	type: string;
 }
 
 export interface MonthlyBills {

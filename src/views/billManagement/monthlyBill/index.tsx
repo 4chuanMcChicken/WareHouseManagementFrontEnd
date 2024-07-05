@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Table, Tag, message, Input, DatePicker, Space, Descriptions } from "antd";
+import { Button, Table, Tag, message, Input, DatePicker, Space, Descriptions, Card } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { MonthlyBill, MonthlyBillDetail, DetailContent } from "@/api/interface/common";
@@ -26,34 +26,52 @@ interface ModalInfo {
 const App: React.FC = () => {
 	const detailColumns: TableColumnsType<DetailDataType> = [
 		{
-			title: "Description",
+			title: "描述",
 			dataIndex: "productName",
-			key: "productName"
-		},
-		{
-			title: "Time Period",
-			dataIndex: "dayIn",
-			key: "dayIn",
-			render: dayIn => {
-				const currentDate = moment(dayIn);
-				const nextMonthDate = moment(dayIn).add(1, "months");
-				return `${currentDate.format("YYYY-MM-DD")}  to  ${nextMonthDate.format("YYYY-MM-DD")}`;
+			key: "description",
+			render: (productName, record) => {
+				if (record.type === "case") {
+					return `Case out service fee: ${productName}`;
+				} else {
+					return `Storage : ${productName}`;
+				}
 			}
 		},
 		{
-			title: "Quantity",
-			dataIndex: "totalPalletNumber",
-			key: "totalPalletNumber"
+			title: "时间 (周期)",
+			dataIndex: "dayIn",
+			render: (dayIn, record) => {
+				if (record.type === "case") {
+					return moment(record.happenTime).format("YYYY-MM-DD");
+				} else {
+					const currentDate = moment(dayIn);
+					const nextMonthDate = moment(dayIn).add(1, "months");
+					return `${currentDate.format("YYYY-MM-DD")}  to  ${nextMonthDate.format("YYYY-MM-DD")}`;
+				}
+			}
 		},
 		{
-			title: "Unit Price ($)",
-			dataIndex: "price",
-			key: "price"
+			title: "数量",
+			dataIndex: "quantity"
 		},
 		{
-			title: "Total ($)",
-			dataIndex: "amount",
-			key: "amount"
+			title: "单价 ($)",
+			dataIndex: "price"
+		},
+		{
+			title: "账单类型",
+			dataIndex: "type",
+			render: type => {
+				if (type === "case") {
+					return "箱";
+				} else {
+					return "板";
+				}
+			}
+		},
+		{
+			title: "总金额 ($)",
+			dataIndex: "amount"
 		}
 	];
 
@@ -119,7 +137,7 @@ const App: React.FC = () => {
 
 	const [monthlyBills, setMonthlyBills] = useState<DataType[] | undefined>([]);
 	const [monthlyBillDetail, setMonthlyBillDetail] = useState<MonthlyBillDetail | undefined>(undefined);
-	const [DetailContent, setDetailContent] = useState<DetailDataType[] | undefined>([]);
+	const [detailContent, setDetailContent] = useState<DetailDataType[] | undefined>([]);
 	const [showDetail, setShowDetail] = useState<boolean>(false);
 	const { tableRef, exportToExcel } = useExportExcel("MonthlyBillDetails");
 
@@ -220,11 +238,16 @@ const App: React.FC = () => {
 			<div>
 				{showDetail ? (
 					<>
-						<div className="detail-container">
+						<Card title="账单明细" style={{ marginBottom: "40px" }}>
 							<Button type="primary" onClick={handleReturn} style={{ minHeight: "36px", textAlign: "center", float: "right" }}>
 								返回
 							</Button>
-							<Descriptions title="账单明细" bordered>
+							<Button type="primary" onClick={exportToExcel} style={{ minHeight: "36px", textAlign: "center" }}>
+								导出Excel
+							</Button>
+						</Card>
+						<Card title="数据总览" style={{ marginBottom: "20px" }}>
+							<Descriptions bordered>
 								<Descriptions.Item label="公司名称">{monthlyBillDetail?.companyName || "N/A"}</Descriptions.Item>
 								<Descriptions.Item label="账单时间">
 									{monthlyBillDetail?.createTime
@@ -236,18 +259,16 @@ const App: React.FC = () => {
 										: "N/A"}
 								</Descriptions.Item>
 								<Descriptions.Item label="总金额($)">{monthlyBillDetail?.totalAmount || "N/A"}</Descriptions.Item>
+								<Descriptions.Item label="板储存费($)">{monthlyBillDetail?.palletAmount || "N/A"}</Descriptions.Item>
+								<Descriptions.Item label="出箱服务费($)">{monthlyBillDetail?.caseAmount || "N/A"}</Descriptions.Item>
+								<Descriptions.Item>{""}</Descriptions.Item>
 							</Descriptions>
-						</div>
-						<div className="detail-table-container">
-							<div className="export-table-container">
-								<Button type="primary" onClick={exportToExcel} style={{ minHeight: "36px", textAlign: "center" }}>
-									导出Excel
-								</Button>
-							</div>
+						</Card>
+						<Card title="具体细则">
 							<div ref={tableRef}>
-								<Table rowKey="productName" columns={detailColumns} dataSource={DetailContent} pagination={false} />
+								<Table rowKey="_id" columns={detailColumns} dataSource={detailContent} pagination={false} />
 							</div>
-						</div>
+						</Card>
 					</>
 				) : (
 					<div className="search-container">
@@ -266,20 +287,24 @@ const App: React.FC = () => {
 								搜索
 							</Button>
 						</div>
-						<div className="table-container">
-							<div className="button-container">
-								<Button type="primary" onClick={confirmBillPaid} disabled={!hasSelected} style={{ marginRight: "10px" }}>
-									确认支付
-								</Button>
+						<Card title="月度账单">
+							<div className="table-container">
+								<div className="button-container">
+									<Button type="primary" onClick={confirmBillPaid} disabled={!hasSelected} style={{ marginRight: "10px" }}>
+										确认支付
+									</Button>
+								</div>
+
+								<Table rowSelection={rowSelection} columns={columns} dataSource={monthlyBills} />
+
+								<ConfirmModal
+									onRef={ModalRef}
+									title={modalInfo?.title}
+									onConfirm={modalInfo?.onConfirm}
+									successMessage={modalInfo?.successMessage}
+								/>
 							</div>
-							<Table rowSelection={rowSelection} columns={columns} dataSource={monthlyBills} />
-							<ConfirmModal
-								onRef={ModalRef}
-								title={modalInfo?.title}
-								onConfirm={modalInfo?.onConfirm}
-								successMessage={modalInfo?.successMessage}
-							/>
-						</div>
+						</Card>
 					</div>
 				)}
 			</div>

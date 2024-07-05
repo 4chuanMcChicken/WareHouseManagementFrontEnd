@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Table, Tag, message, Input } from "antd";
+import { Button, Table, Tag, message, Input, Card } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { Pallet } from "@/api/interface/common";
-import { getPallets, addOutBoundRecord, getAllCompanyInfo, revokeOutBound } from "@/api/modules/common";
+import { getPallets, addOutBoundRecord, getAllCompanyInfo } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
 import moment from "moment";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -146,22 +146,22 @@ const App: React.FC = () => {
 		}
 	};
 
-	const confirmCancleOutBound = () => {
-		for (let i = 0; i < selectedRows.length; i++) {
-			if (selectedRows[i].ifCheckout === true || selectedRows[i].status === "inStock") {
-				message.error("当前选择不能取消出库");
-				return; // 退出整个函数
-			}
-		}
-		if (ModalRef.current) {
-			setModalInfo({
-				title: "确认取消出库? ",
-				successMessage: "取消出库成功",
-				onConfirm: handleRevokeConfirmed
-			});
-			ModalRef.current.showModal();
-		}
-	};
+	// const confirmCancleOutBound = () => {
+	// 	for (let i = 0; i < selectedRows.length; i++) {
+	// 		if (selectedRows[i].ifCheckout === true || selectedRows[i].status === "inStock") {
+	// 			message.error("当前选择不能取消出库");
+	// 			return; // 退出整个函数
+	// 		}
+	// 	}
+	// 	if (ModalRef.current) {
+	// 		setModalInfo({
+	// 			title: "确认取消出库? ",
+	// 			successMessage: "取消出库成功",
+	// 			onConfirm: handleRevokeConfirmed
+	// 		});
+	// 		ModalRef.current.showModal();
+	// 	}
+	// };
 
 	const handleConfirmed = async () => {
 		await addOutBoundRecord(selectedRowKeys);
@@ -169,11 +169,11 @@ const App: React.FC = () => {
 		await fetchData();
 	};
 
-	const handleRevokeConfirmed = async () => {
-		await revokeOutBound(selectedRowKeys);
-		setSelectedRowKeys([]);
-		await fetchData();
-	};
+	// const handleRevokeConfirmed = async () => {
+	// 	await revokeOutBound(selectedRowKeys);
+	// 	setSelectedRowKeys([]);
+	// 	await fetchData();
+	// };
 
 	const handleSearch = async () => {
 		try {
@@ -220,23 +220,27 @@ const App: React.FC = () => {
 					</Button>
 				</div>
 			</div>
-			<div className="table-container">
-				<div className="button-container">
-					<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "30px" }}>
-						出库
-					</Button>
-					<Button type="primary" onClick={confirmCancleOutBound} disabled={!hasSelected}>
+
+			<Card title="库存管理">
+				<div className="table-container">
+					<div className="button-container">
+						<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "30px" }}>
+							出库
+						</Button>
+						{/* <Button type="primary" onClick={confirmCancleOutBound} disabled={!hasSelected}>
 						撤销出库
-					</Button>
+					</Button> */}
+					</div>
+					<Table rowSelection={rowSelection} columns={columns} dataSource={pallets} />
+					<ConfirmModal
+						onRef={ModalRef}
+						title={modalInfo!.title}
+						onConfirm={modalInfo!.onConfirm}
+						successMessage={modalInfo!.successMessage}
+						modalText="确认后，此板货物将整板出库，且出库时间为当前时间"
+					></ConfirmModal>
 				</div>
-				<Table rowSelection={rowSelection} columns={columns} dataSource={pallets} />
-				<ConfirmModal
-					onRef={ModalRef}
-					title={modalInfo!.title}
-					onConfirm={modalInfo!.onConfirm}
-					successMessage={modalInfo!.successMessage}
-				></ConfirmModal>
-			</div>
+			</Card>
 		</>
 	);
 };

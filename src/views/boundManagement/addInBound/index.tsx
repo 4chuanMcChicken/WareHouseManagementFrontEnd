@@ -81,7 +81,7 @@ const AddInBound: React.FC = () => {
 
 	return (
 		<div>
-			<Card>
+			<Card title="入库">
 				<Form
 					form={form}
 					labelCol={{ span: 4 }}
@@ -136,7 +136,7 @@ const AddInBound: React.FC = () => {
 					</Form.Item>
 					<Form.Item wrapperCol={{ offset: 3, span: 16 }}>
 						<Button type="primary" htmlType="submit" loading={loading}>
-							提交
+							入库
 						</Button>
 					</Form.Item>
 				</Form>

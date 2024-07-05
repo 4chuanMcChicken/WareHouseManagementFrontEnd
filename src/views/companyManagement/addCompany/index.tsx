@@ -29,7 +29,7 @@ const addCompany: React.FC = () => {
 	};
 	return (
 		<>
-			<Card>
+			<Card title="新增公司">
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
