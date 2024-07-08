@@ -1,30 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Tag } from "antd";
+import { Card, Table, Tag, Button, Input, message } from "antd";
 import { BoundRecordInfo } from "@/api/interface/common";
-import { getBoundRecordsInfo } from "@/api/modules/common";
+import { getBoundRecordsInfo, revokeBoundRecord } from "@/api/modules/common";
 import moment from "moment";
+import "./index.less";
 const { Column } = Table;
 
 const BoundRecord: React.FC = () => {
 	const [boundRecordInfo, setBoundRecordInfo] = useState<BoundRecordInfo[]>([]);
 	const [searchType] = useState("all");
+	const [password, setPassword] = useState("");
 
+	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+	const [selectedRows, setSelectedRows] = useState<BoundRecordInfo[]>([]);
+	const fetchData = async () => {
+		try {
+			const result = await getBoundRecordsInfo(searchType);
+			setBoundRecordInfo(result.data?.boundRecords || []);
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
+	};
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const result = await getBoundRecordsInfo(searchType);
-				setBoundRecordInfo(result.data?.boundRecords || []);
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
-		};
-
 		fetchData(); // 调用异步函数
 	}, []);
+	let hasSelected = selectedRowKeys.length > 0;
+
+	const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRow: BoundRecordInfo[]) => {
+		const stringRowKeys = newSelectedRowKeys.map(key => key.toString());
+		setSelectedRowKeys(stringRowKeys);
+		setSelectedRows(selectedRow);
+		console.log(selectedRows);
+	};
+
+	const rowSelection = {
+		selectedRowKeys,
+		onChange: onSelectChange
+	};
+
+	const confirmRevoke = async () => {
+		if (selectedRowKeys.length > 1) {
+			message.error("每次撤销只能选择一次记录");
+			return;
+		}
+		await revokeBoundRecord(selectedRowKeys[0], password);
+		message.success("撤销成功");
+		setPassword("");
+		fetchData();
+	};
+
+	const handlePasswordChange = (e: any) => {
+		setPassword(e.target.value);
+	};
+
 	return (
 		<div>
 			<Card title="出入库记录">
-				<Table dataSource={boundRecordInfo} rowKey="_id">
+				<div className="revoke-input">
+					<Input placeholder="请输入撤销6位密码" className="input" value={password} onChange={handlePasswordChange} />
+					<Button type="primary" onClick={confirmRevoke} disabled={!hasSelected} className="button">
+						确定撤销
+					</Button>
+				</div>
+				<Table dataSource={boundRecordInfo} rowSelection={rowSelection} rowKey="_id">
 					<Column
 						title="发生时间"
 						dataIndex="happenTime"

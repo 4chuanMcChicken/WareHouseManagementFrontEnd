@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Select, Space, Card } from "antd";
+import { Button, Form, Input, Select, Space, Card, message } from "antd";
 import { getAllCompanyInfo, addProduct } from "@/api/modules/common";
 import { CompanyInfo } from "@/api/interface/common";
 
@@ -36,6 +36,7 @@ const AddProduct: React.FC = () => {
 		if (selectedCompany?._id) {
 			await addProduct(values.name, selectedCompany._id, values.description);
 		}
+		message.success("添加成功");
 		form.resetFields();
 	};
 

@@ -81,6 +81,11 @@ export const smartOutBound = (productId: string, quantity: number, type: string,
 	return http.post(`/common/smartOutBound`, { productId, quantity, type, happenTime });
 };
 
+// * 智能出库
+export const revokeBoundRecord = (boundRecordId: string, password: string) => {
+	return http.post(`/common/revokeBoundRecord`, { boundRecordId, password });
+};
+
 // // * 添加公司信息
 // export const deleteCompany = (id: string) => {
 // 	return http.post(`/common/deleteCompany`, { id });
