@@ -79,8 +79,13 @@ const menuArray = [
 		children: [
 			{
 				icon: "UnorderedListOutlined",
+				path: "/palletManagement/palletRecordByBatch",
+				title: "整批库存记录"
+			},
+			{
+				icon: "UnorderedListOutlined",
 				path: "/palletManagement/palletRecord",
-				title: "库存记录"
+				title: "单板库存记录"
 			}
 		]
 	},

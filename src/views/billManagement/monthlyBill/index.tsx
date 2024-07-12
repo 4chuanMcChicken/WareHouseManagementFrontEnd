@@ -235,7 +235,7 @@ const App: React.FC = () => {
 	const hasSelected = selectedRowKeys.length > 0;
 	return (
 		<>
-			<div>
+			<div className="monthly-bill">
 				{showDetail ? (
 					<>
 						<Card title="账单明细" style={{ marginBottom: "40px" }}>

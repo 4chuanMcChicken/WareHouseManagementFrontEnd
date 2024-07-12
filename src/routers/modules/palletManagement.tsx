@@ -12,11 +12,20 @@ const palletRouter: Array<RouteObject> = [
 		},
 		children: [
 			{
+				path: "/palletManagement/palletRecordByBatch",
+				element: lazyLoad(React.lazy(() => import("@/views/palletManagement/palletRecordByBatch/index"))),
+				meta: {
+					requiresAuth: true,
+					title: "整批库存记录",
+					key: "palletRecordByBatch"
+				}
+			},
+			{
 				path: "/palletManagement/palletRecord",
 				element: lazyLoad(React.lazy(() => import("@/views/palletManagement/palletRecord/index"))),
 				meta: {
 					requiresAuth: true,
-					title: "库存管理",
+					title: "单板库存记录",
 					key: "palletRecord"
 				}
 			}

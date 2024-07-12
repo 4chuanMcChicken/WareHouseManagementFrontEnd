@@ -67,7 +67,7 @@ const BoundRecord: React.FC = () => {
 						title="发生时间"
 						dataIndex="happenTime"
 						key="happenTime"
-						render={happenTime => moment(parseInt(happenTime)).format("YYYY-MM-DD HH:mm:ss")}
+						render={happenTime => moment(parseInt(happenTime)).format("YYYY-MM-DD")}
 					/>
 					<Column
 						title="类型"

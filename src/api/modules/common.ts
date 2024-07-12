@@ -7,7 +7,9 @@ import {
 	Pallets,
 	MonthlyBills,
 	MonthlyBillDetail,
-	Product
+	Product,
+	OutBoundProductDetail,
+	PalletByBatch
 } from "@/api/interface/common";
 import { ResPage } from "@/api/interface/index";
 import http from "@/api";
@@ -77,13 +79,47 @@ export const getProductInfo = (page: number, limit: number, companyName?: string
 };
 
 // * 智能出库
-export const smartOutBound = (productId: string, quantity: number, type: string, happenTime: string) => {
-	return http.post(`/common/smartOutBound`, { productId, quantity, type, happenTime });
+export const smartOutBound = (
+	productId: string,
+	quantity: number,
+	type: string,
+	happenTime: string,
+	targetPalletCaseQuantity: number,
+	wareHouseId: string
+) => {
+	return http.post(`/common/smartOutBound`, { productId, quantity, type, happenTime, targetPalletCaseQuantity, wareHouseId });
 };
 
-// * 智能出库
+// * 撤销入库或出库
 export const revokeBoundRecord = (boundRecordId: string, password: string) => {
 	return http.post(`/common/revokeBoundRecord`, { boundRecordId, password });
+};
+
+// * 获取出库时的货物信息，包括仓库和箱数信息
+export const getPalletInfoByProduct = (productId: string) => {
+	return http.get<OutBoundProductDetail[]>(`/common/getPalletInfoByProduct`, { productId });
+};
+
+// * 获取出库时的货物信息，包括仓库和箱数信息
+export const getPalletsByBatch = (
+	page: number,
+	limit: number,
+	companyName?: string,
+	inBoundTimeFrom?: number,
+	inBoundTimeTo?: number
+) => {
+	return http.get<ResPage<PalletByBatch>>(`/common/getPalletsByBatch`, {
+		page,
+		limit,
+		companyName,
+		inBoundTimeFrom,
+		inBoundTimeTo
+	});
+};
+
+// * 获取出库时的货物信息，包括仓库和箱数信息
+export const addOutBoundByBoundRecordId = (boundRecordId: string, quantity: number, happenTime: number) => {
+	return http.post(`/common/addOutBoundByBoundRecordId`, { boundRecordId, quantity, happenTime });
 };
 
 // // * 添加公司信息

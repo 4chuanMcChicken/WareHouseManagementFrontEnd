@@ -109,3 +109,26 @@ export interface Product {
 export interface Products {
 	productInfos: Product[];
 }
+
+export interface OutBoundProductDetail {
+	wareHouseId: WareHouseInfo;
+	caseAmounts: number[];
+}
+
+export interface PalletByBatch {
+	happenTime: number;
+	inBoundRecordId: string;
+	companyId: string;
+	companyName: string;
+	productId: string;
+	productName: string;
+	wareHouseId: string;
+	wareHouseName: string;
+	inStock: number;
+	outStock: number;
+	total: number;
+	stockStatic: string;
+	comment: string;
+	orderNumber: string;
+	caseAmount: number;
+}
