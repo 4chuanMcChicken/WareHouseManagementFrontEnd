@@ -53,11 +53,22 @@ const BoundRecord: React.FC = () => {
 		setPassword(e.target.value);
 	};
 
+	const handlePaste = (e: any) => {
+		e.preventDefault();
+		message.warning("粘贴功能已禁用，请手动输入密码");
+	};
+
 	return (
 		<div>
 			<Card title="出入库记录">
 				<div className="revoke-input">
-					<Input placeholder="请输入撤销6位密码" className="input" value={password} onChange={handlePasswordChange} />
+					<Input
+						placeholder="请输入撤销6位密码"
+						className="input"
+						value={password}
+						onChange={handlePasswordChange}
+						onPaste={handlePaste}
+					/>
 					<Button type="primary" onClick={confirmRevoke} disabled={!hasSelected} className="button">
 						确定撤销
 					</Button>

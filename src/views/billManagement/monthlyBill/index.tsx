@@ -44,9 +44,11 @@ const App: React.FC = () => {
 				if (record.type === "case") {
 					return moment(record.happenTime).format("YYYY-MM-DD");
 				} else {
-					const currentDate = moment(dayIn);
-					const nextMonthDate = moment(dayIn).add(1, "months");
-					return `${currentDate.format("YYYY-MM-DD")}  to  ${nextMonthDate.format("YYYY-MM-DD")}`;
+					const nowDate = moment();
+					const dayInDate = moment(dayIn);
+					const currentDate = moment(nowDate).subtract(1, "months").date(dayInDate.date());
+					const nextMonthDate = moment(nowDate).date(dayInDate.date());
+					return `${currentDate.format("YYYY-MM-DD")} to ${nextMonthDate.format("YYYY-MM-DD")}`;
 				}
 			}
 		},

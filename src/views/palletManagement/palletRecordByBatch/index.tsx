@@ -16,6 +16,7 @@ const PalletRecordByBatch: React.FC = () => {
 	const dateRangeRef = useRef<RangePickerProps["value"]>(null);
 
 	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+	const [selectedRow, setSelectedRow] = useState<PalletByBatch[]>([]);
 
 	const [palletBatchInfo, setPalletBatchInfo] = useState<PalletByBatch[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -33,6 +34,7 @@ const PalletRecordByBatch: React.FC = () => {
 		const stringRowKeys = newSelectedRowKeys.map(key => key.toString());
 		setSelectedRowKeys(stringRowKeys);
 		setMaxQuantity(selectedRows[0].inStock);
+		setSelectedRow(selectedRows);
 	};
 
 	const rowSelection = {
@@ -77,6 +79,11 @@ const PalletRecordByBatch: React.FC = () => {
 	};
 
 	const confirmOutBound = () => {
+		if (selectedRow[0].inStock == 0) {
+			message.error("当前批次无可出库的板");
+			return;
+		}
+
 		if (selectedRowKeys.length > 1) {
 			message.error("一次只能选中一批");
 			return;
@@ -92,7 +99,8 @@ const PalletRecordByBatch: React.FC = () => {
 	// }, [selectedRowKeys]);
 
 	const onUpdateSuccessHandler = async () => {
-		fetchData(); // 调用异步函数
+		await fetchData(); // 调用异步函数
+		setSelectedRowKeys([]);
 	};
 
 	return (

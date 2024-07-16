@@ -151,6 +151,7 @@ const SmartOutBound: React.FC = () => {
 
 			// message.success("出库成功！");
 		} finally {
+			setTargetCaseDisabled(false);
 			setLoading(false);
 			form.resetFields();
 		}
@@ -223,7 +224,7 @@ const SmartOutBound: React.FC = () => {
 					<Form.Item
 						label="目标版总箱数"
 						name="targetPalletCaseQuantity"
-						rules={[{ required: true, message: "请选择目标版总箱数" }]}
+						rules={[{ required: !targetCaseDisabled, message: "请选择目标板总箱数" }]}
 					>
 						<Select style={{ width: "100px" }} disabled={targetCaseDisabled}>
 							{targetPalletCaseQuantity.map((amount, index) => (

@@ -182,7 +182,7 @@ const App: React.FC = () => {
 			const company = companyInfo.find(company => company.name === companyName);
 			const companyId = company ? company._id : null;
 			if (!companyId) {
-				message.error("未找到匹配的公司名称");
+				message.error("请先输入公司名");
 				return;
 			}
 

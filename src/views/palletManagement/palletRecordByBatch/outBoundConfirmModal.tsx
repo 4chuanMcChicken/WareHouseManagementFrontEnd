@@ -66,7 +66,7 @@ const ComfirmOutBoundModal: React.FC<IMyProps> = (props: IMyProps) => {
 					<Form.Item label="单位" name="unit">
 						<Input disabled placeholder="板" />
 					</Form.Item>
-					<Form.Item label="入库时间" name="happenTime" rules={[{ required: true, message: "请选择入库时间" }]}>
+					<Form.Item label="出库时间" name="happenTime" rules={[{ required: true, message: "请选择入库时间" }]}>
 						<DatePicker />
 					</Form.Item>
 				</Form>
