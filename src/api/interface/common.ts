@@ -57,6 +57,7 @@ export interface Pallet {
 	outBoundRecordId?: string;
 	ifCheckout: boolean;
 	dayOut?: number;
+	remainCase?: number;
 }
 
 export interface Pallets {

@@ -125,6 +125,10 @@ const App: React.FC = () => {
 	const confirmOutBound = () => {
 		const firstItem = selectedRows[0];
 		const { companyName: firstCompanyName, productName: firstProductName } = firstItem;
+		if (selectedRows.every(item => item.remainCase && item.remainCase !== 0)) {
+			message.error("当前板为非完整板，不可出库");
+			return; // 退出整个函数
+		}
 
 		if (!selectedRows.every(item => item.companyName === firstCompanyName && item.productName === firstProductName)) {
 			message.error("每次出库只能选择同一家公司的同一种物品");
