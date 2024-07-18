@@ -31,6 +31,10 @@ const ComfirmOutBoundModal: React.FC<IMyProps> = (props: IMyProps) => {
 			const values = await form.validateFields();
 			setConfirmLoading(true);
 			const happenTime = moment(values.happenTime).startOf("day").add(12, "hours").valueOf();
+			if (values.quantity > props.maxQuantity) {
+				message.error("出库数量不可大于库存量");
+				return;
+			}
 			await addOutBoundByBoundRecordId(props.boundRecordId, values.quantity, happenTime);
 			message.success("出库成功");
 			props.onUpdateSuccess();
@@ -60,7 +64,7 @@ const ComfirmOutBoundModal: React.FC<IMyProps> = (props: IMyProps) => {
 			>
 				<Form name="editCompanyForm" style={{ maxWidth: 600 }} autoComplete="off" layout="vertical" form={form} preserve={false}>
 					<Form.Item label="出库板数" name="quantity" rules={[{ required: true, message: "请输入板数!" }]}>
-						<InputNumber min={1} max={props.maxQuantity} />
+						<InputNumber min={1} />
 					</Form.Item>
 
 					<Form.Item label="单位" name="unit">

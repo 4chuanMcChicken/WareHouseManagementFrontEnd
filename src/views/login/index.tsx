@@ -1,6 +1,6 @@
 import LoginForm from "./components/LoginForm";
 import SwitchDark from "@/components/SwitchDark";
-import loginLeft from "@/assets/images/login_left.png";
+import loginLeft from "@/assets/images/officalLogo.jpg";
 import logo from "@/assets/images/logo.png";
 import "./index.less";
 

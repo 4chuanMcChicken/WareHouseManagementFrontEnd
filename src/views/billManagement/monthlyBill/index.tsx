@@ -125,8 +125,6 @@ const App: React.FC = () => {
 		}
 	];
 
-	const { RangePicker } = DatePicker;
-
 	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 	const [selectedRows, setSelectedRows] = useState<MonthlyBill[]>([]);
 	const [modalInfo, setModalInfo] = useState<ModalInfo>({
@@ -142,17 +140,19 @@ const App: React.FC = () => {
 	const [detailContent, setDetailContent] = useState<DetailDataType[] | undefined>([]);
 	const [showDetail, setShowDetail] = useState<boolean>(false);
 	const { tableRef, exportToExcel } = useExportExcel("MonthlyBillDetails");
+	const [selectedTimestamp, setSelectedTimestamp] = useState<number | undefined>();
 
 	useEffect(() => {
 		fetchData();
 	}, []);
 
-	const handleTimeChange = (range: any) => {
-		const valueOfInput1 = range[0].format();
-		const valueOfInput2 = range[1].format();
-
-		console.log("start date", valueOfInput1);
-		console.log("end date", valueOfInput2);
+	const handleTimeChange = (date: moment.Moment | null) => {
+		if (date) {
+			const timestamp = date.valueOf();
+			setSelectedTimestamp(timestamp);
+		} else {
+			setSelectedTimestamp(undefined);
+		}
 	};
 
 	const checkDetail = async (record: DataType) => {
@@ -226,8 +226,13 @@ const App: React.FC = () => {
 	const handleSearch = async () => {
 		try {
 			const companyName = companyNameRef.current?.input?.value || undefined;
-			console.log(companyNameRef.current);
-			console.log(companyName);
+			const resultBills = await getMonthlyBill(companyName, selectedTimestamp);
+			const dataWithKeys =
+				resultBills.data?.monthlyBills.map((monthlyBill: MonthlyBill, index: number) => ({
+					...monthlyBill,
+					key: monthlyBill._id ?? index
+				})) || [];
+			setMonthlyBills(dataWithKeys);
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}
@@ -281,8 +286,8 @@ const App: React.FC = () => {
 									<Input ref={companyNameRef} placeholder="请输入公司名称" />
 								</div>
 								<div className="input-container-product">
-									<span>账单时间:</span>
-									<RangePicker onChange={handleTimeChange} />
+									<span>账单月份:</span>
+									<DatePicker onChange={handleTimeChange} picker="month" />
 								</div>
 							</div>
 							<Button type="primary" style={{ float: "right" }} onClick={handleSearch}>

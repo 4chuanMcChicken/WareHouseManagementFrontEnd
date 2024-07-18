@@ -50,8 +50,8 @@ export const getPallets = (productName?: string, companyId?: string) => {
 };
 
 // * 获得月度账单记录
-export const getMonthlyBill = (companyId?: string, ifPaid?: boolean) => {
-	return http.get<MonthlyBills>(`/common/getMonthlyBill`, { companyId, ifPaid });
+export const getMonthlyBill = (companyName?: string, happenTime?: number) => {
+	return http.get<MonthlyBills>(`/common/getMonthlyBill`, { companyName, happenTime });
 };
 
 // * 获得某张月度账单详情
