@@ -42,7 +42,7 @@ const App: React.FC = () => {
 			dataIndex: "dayIn",
 			render: (dayIn, record) => {
 				if (record.type === "case") {
-					return moment(record.happenTime).format("YYYY-MM-DD");
+					return `on ${moment(record.happenTime).format("YYYY-MM-DD")}`;
 				} else {
 					const nowDate = moment();
 					const dayInDate = moment(dayIn);

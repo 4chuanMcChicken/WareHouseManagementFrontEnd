@@ -5,18 +5,26 @@ import { CompanyInfo, InBoundRecord, WareHouseInfo, Product } from "@/api/interf
 import "./index.less";
 import moment from "moment";
 import { getAllCompanyInfo, addInBoundRecord, getAllWareHouseInfo, getProductInfo } from "@/api/modules/common";
-import { message } from "antd";
+// import { message } from "antd";
+import ConfirmModal from "@/components/ConfirmModal";
 
 type FieldType = {
-	productName: string;
+	productName: { label: any; key: any; value: any };
 	quantity: number;
-	companyId: string;
-	wareHouseId: string;
+	companyId: { label: any; key: any; value: any };
+	wareHouseId: { label: any; key: any; value: any };
 	caseAmount?: number;
 	happenTime: number;
 	comment?: string;
 	orderNumber?: string;
 };
+
+interface ModalInfo {
+	title: string;
+	successMessage: string;
+	text: string;
+	onConfirm: () => Promise<void>;
+}
 
 const AddInBound: React.FC = () => {
 	const [companyInfo, setCompanyInfo] = useState<CompanyInfo[]>([]);
@@ -24,6 +32,16 @@ const AddInBound: React.FC = () => {
 	const [productInfo, setProductInfo] = useState<Product[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [form] = Form.useForm();
+	let ModalRef: any = useRef();
+
+	const [modalInfo, setModalInfo] = useState<ModalInfo>({
+		title: "",
+		successMessage: "",
+		text: "",
+		onConfirm: async () => {
+			return Promise.resolve();
+		}
+	});
 
 	const companyFormRef = useRef<any>(null);
 
@@ -52,13 +70,17 @@ const AddInBound: React.FC = () => {
 
 	const onFinish: FormProps<FieldType>["onFinish"] = async values => {
 		try {
-			const companyId = companyFormRef.current.getFieldValue("companyId");
-			const wareHouseId = companyFormRef.current.getFieldValue("wareHouseId");
+			// const companyId = companyFormRef.current.getFieldValue("companyId");
+			// const wareHouseId = companyFormRef.current.getFieldValue("wareHouseId");
 			const happenTime = moment(values.happenTime).startOf("day").add(12, "hours").valueOf();
+
+			if (values.caseAmount === null) {
+				values.caseAmount = undefined;
+			}
 			const inBoundRecord: InBoundRecord = {
-				productId: values.productName,
-				companyId,
-				wareHouseId,
+				productId: values.productName.value,
+				companyId: values.companyId.value,
+				wareHouseId: values.wareHouseId.value,
 				happenTime,
 				quantity: values.quantity,
 				caseAmount: values.caseAmount,
@@ -66,13 +88,51 @@ const AddInBound: React.FC = () => {
 				orderNumber: values.orderNumber
 			};
 
+			const modalText = getInBoundText(values);
+
+			if (ModalRef.current) {
+				setModalInfo({
+					title: "请确认入库信息 ",
+					text: modalText,
+					successMessage: "入库成功",
+					onConfirm: () => confirmInBound(inBoundRecord)
+				});
+				ModalRef.current.showModal();
+			}
 			setLoading(true);
-			await addInBoundRecord(inBoundRecord);
-			message.success("添加成功！！");
+			// await addInBoundRecord(inBoundRecord);
 		} finally {
 			setLoading(false);
 			form.resetFields();
 		}
+	};
+
+	const confirmInBound = async (inBoundRecord: any) => {
+		await addInBoundRecord(inBoundRecord);
+	};
+
+	const getInBoundText = (value: any) => {
+		const readableTime = moment(value.happenTime)
+			.set({ hour: 12, minute: 0, second: 0, millisecond: 0 })
+			.format("YYYY年MM月DD日 HH:mm:ss");
+
+		let text = `
+		公司名称: ${value.companyId.label}
+
+		货物名称: ${value.productName.label}
+
+		仓库名称:  ${value.wareHouseId.label}
+
+		板数: ${value.quantity}
+
+		入库时间: ${readableTime}
+		`;
+
+		if (value.caseAmount) {
+			text += `
+		箱数: ${value.caseAmount}`;
+		}
+		return text;
 	};
 
 	const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = errorInfo => {
@@ -92,7 +152,7 @@ const AddInBound: React.FC = () => {
 					ref={companyFormRef}
 				>
 					<Form.Item label="公司" name="companyId" rules={[{ required: true, message: "请选择公司" }]}>
-						<Select onChange={handleCompanyChange}>
+						<Select onChange={handleCompanyChange} labelInValue>
 							{companyInfo.map(company => (
 								<Select.Option key={company.name} value={company._id}>
 									{company.name}
@@ -101,7 +161,7 @@ const AddInBound: React.FC = () => {
 						</Select>
 					</Form.Item>
 					<Form.Item<FieldType> label="货物名称" name="productName" rules={[{ required: true, message: "请选择货物名称" }]}>
-						<Select>
+						<Select labelInValue>
 							{productInfo.map(product => (
 								<Select.Option key={product._id} value={product._id}>
 									{product.name}
@@ -114,7 +174,7 @@ const AddInBound: React.FC = () => {
 					</Form.Item>
 
 					<Form.Item label="仓库" name="wareHouseId" rules={[{ required: true, message: "请选择仓库" }]}>
-						<Select>
+						<Select labelInValue>
 							{wareHouseInfo.map(wareHouse => (
 								<Select.Option key={wareHouse._id} value={wareHouse._id}>
 									{wareHouse.name}
@@ -126,7 +186,7 @@ const AddInBound: React.FC = () => {
 						<DatePicker />
 					</Form.Item>
 					<Form.Item label="箱数(每板)" name="caseAmount">
-						<InputNumber />
+						<InputNumber min={1} />
 					</Form.Item>
 					<Form.Item<FieldType> label="备注" name="comment">
 						<Input />
@@ -141,6 +201,13 @@ const AddInBound: React.FC = () => {
 					</Form.Item>
 				</Form>
 			</Card>
+			<ConfirmModal
+				onRef={ModalRef}
+				title={modalInfo!.title}
+				onConfirm={modalInfo!.onConfirm}
+				successMessage={modalInfo!.successMessage}
+				modalText={modalInfo!.text}
+			></ConfirmModal>
 		</div>
 	);
 };

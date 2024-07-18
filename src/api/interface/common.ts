@@ -58,6 +58,7 @@ export interface Pallet {
 	ifCheckout: boolean;
 	dayOut?: number;
 	remainCase?: number;
+	caseAmount?: number;
 }
 
 export interface Pallets {

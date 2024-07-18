@@ -35,14 +35,14 @@ const columns: TableColumnsType<DataType> = [
 		key: "wareHouseName"
 	},
 	{
-		title: "备注",
-		dataIndex: "comment",
-		key: "comment"
+		title: "总箱数",
+		dataIndex: "caseAmount",
+		key: "caseAmount"
 	},
 	{
-		title: "订单号",
-		dataIndex: "orderNumber",
-		key: "orderNumber"
+		title: "剩余箱数",
+		dataIndex: "remainCase",
+		key: "remainCase"
 	},
 	{
 		title: "入库时间",
