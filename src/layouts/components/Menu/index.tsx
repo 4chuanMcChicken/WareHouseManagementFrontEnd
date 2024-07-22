@@ -99,7 +99,7 @@ const menuArray = [
 				title: "月度账单"
 			}
 		]
-	}
+	},
 	// {
 	// 	icon: "AreaChartOutlined",
 	// 	title: "数据大屏",
@@ -161,43 +161,43 @@ const menuArray = [
 	// 		}
 	// 	]
 	// },
-	// {
-	// 	icon: "PieChartOutlined",
-	// 	title: "Echarts",
-	// 	path: "/echarts",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/waterChart",
-	// 			title: "水型图"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/columnChart",
-	// 			title: "柱状图"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/lineChart",
-	// 			title: "折线图"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/pieChart",
-	// 			title: "饼图"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/radarChart",
-	// 			title: "雷达图"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/echarts/nestedChart",
-	// 			title: "嵌套环形图"
-	// 		}
-	// 	]
-	// }
+	{
+		icon: "PieChartOutlined",
+		title: "Echarts",
+		path: "/echarts",
+		children: [
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/waterChart",
+				title: "水型图"
+			},
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/columnChart",
+				title: "柱状图"
+			},
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/lineChart",
+				title: "折线图"
+			},
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/pieChart",
+				title: "饼图"
+			},
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/radarChart",
+				title: "雷达图"
+			},
+			{
+				icon: "AppstoreOutlined",
+				path: "/echarts/nestedChart",
+				title: "嵌套环形图"
+			}
+		]
+	}
 	// {
 	// 	icon: "ShoppingOutlined",
 	// 	title: "常用组件",

@@ -5,6 +5,7 @@ export interface CompanyInfo {
 	name: string;
 	contactNumber: string;
 	price: number;
+	discountPercentage: number;
 }
 
 export interface BoundRecordInfo {
@@ -75,6 +76,8 @@ export interface MonthlyBill {
 	billedMonthTimestamp: string;
 	unitPrice: number;
 	ifPaid: boolean;
+	discountedAmount?: number;
+	discountPercentage?: number;
 }
 
 export interface MonthlyBillDetail {
@@ -84,6 +87,7 @@ export interface MonthlyBillDetail {
 	details: DetailContent[];
 	caseAmount: number;
 	palletAmount: number;
+	discountPercentage?: number;
 }
 
 export interface DetailContent {

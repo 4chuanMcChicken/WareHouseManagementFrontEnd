@@ -73,9 +73,11 @@ const PalletRecordByBatch: React.FC = () => {
 		dateRangeRef.current = dates;
 	};
 
-	const handleTableChange = (pagination: TablePaginationConfig) => {
+	const handleTableChange = async (pagination: TablePaginationConfig) => {
 		setCurrentPage(pagination.current || 1);
 		setPageSize(pagination.pageSize || 10);
+		const result = await getPalletsByBatch(pagination.current || 1, pagination.pageSize || 10);
+		setPalletBatchInfo(result.data?.datalist || []);
 	};
 
 	const confirmOutBound = () => {

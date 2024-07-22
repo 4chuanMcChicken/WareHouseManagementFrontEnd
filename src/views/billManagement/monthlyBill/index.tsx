@@ -89,11 +89,21 @@ const App: React.FC = () => {
 			key: "amount"
 		},
 		{
-			title: "生成时间",
-			dataIndex: "createTime",
-			key: "createTime",
-			render: (createTime: string) => moment(parseInt(createTime)).format("YYYY-MM-DD HH:mm:ss")
+			title: "折扣比例",
+			dataIndex: "discountPercentage",
+			key: "discountPercentage"
 		},
+		{
+			title: "折扣后价格",
+			dataIndex: "discountedAmount",
+			key: "discountedAmount"
+		},
+		// {
+		// 	title: "生成时间",
+		// 	dataIndex: "createTime",
+		// 	key: "createTime",
+		// 	render: (createTime: string) => moment(parseInt(createTime)).format("YYYY-MM-DD HH:mm:ss")
+		// },
 		{
 			title: "账单周期",
 			dataIndex: "billedMonth",
@@ -265,6 +275,7 @@ const App: React.FC = () => {
 										  })
 										: "N/A"}
 								</Descriptions.Item>
+								<Descriptions.Item label="折扣比例">{monthlyBillDetail?.discountPercentage || "N/A"}</Descriptions.Item>
 								<Descriptions.Item label="总金额($)">{monthlyBillDetail?.totalAmount || "N/A"}</Descriptions.Item>
 								<Descriptions.Item label="板储存费($)">{monthlyBillDetail?.palletAmount || "N/A"}</Descriptions.Item>
 								<Descriptions.Item label="出箱服务费($)">{monthlyBillDetail?.caseAmount || "N/A"}</Descriptions.Item>

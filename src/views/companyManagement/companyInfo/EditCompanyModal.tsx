@@ -48,7 +48,8 @@ const EditCompany: React.FC<IMyProps> = (props: IMyProps) => {
 					_id: props.selectedInfo!._id,
 					name: values.name,
 					contactNumber: values.contactNumber,
-					price: values.price
+					price: values.price,
+					discountPercentage: values.discountPercentage
 				});
 				message.success("修改成功！！");
 				props.onUpdateSuccess();
@@ -86,6 +87,10 @@ const EditCompany: React.FC<IMyProps> = (props: IMyProps) => {
 
 					<Form.Item<FieldType> label="单价 ($/day)" name="price" rules={[{ required: true, message: "请输入单价!" }]}>
 						<InputNumber min={1} />
+					</Form.Item>
+
+					<Form.Item<FieldType> label="折扣比例 ( 0-1, 0.8 = 80% )" name="discountPercentage">
+						<InputNumber max={1} />
 					</Form.Item>
 				</Form>
 			</Modal>

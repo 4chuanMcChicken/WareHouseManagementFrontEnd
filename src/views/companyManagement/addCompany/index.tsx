@@ -9,6 +9,7 @@ type FieldType = {
 	companyName: string;
 	contactNumber: string;
 	price: number;
+	discountPercentage: number;
 };
 
 const addCompany: React.FC = () => {
@@ -17,7 +18,12 @@ const addCompany: React.FC = () => {
 	const onFinish: FormProps<FieldType>["onFinish"] = async values => {
 		try {
 			setLoading(true);
-			await addCompanyInfo({ name: values.companyName, contactNumber: values.contactNumber, price: values.price });
+			await addCompanyInfo({
+				name: values.companyName,
+				contactNumber: values.contactNumber,
+				price: values.price,
+				discountPercentage: values.discountPercentage
+			});
 			message.success("添加成功！！");
 		} finally {
 			setLoading(false);
@@ -50,6 +56,10 @@ const addCompany: React.FC = () => {
 
 					<Form.Item<FieldType> label="单价 ($/day)" name="price" rules={[{ required: true, message: "请输入单价!" }]}>
 						<InputNumber min={1} />
+					</Form.Item>
+
+					<Form.Item<FieldType> label="折扣比例 ( 0-1, 0.8 = 80% )" name="discountPercentage">
+						<InputNumber max={1} />
 					</Form.Item>
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>

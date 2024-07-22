@@ -48,6 +48,7 @@ const companyInfo: React.FC = () => {
 					<Column title="公司名" dataIndex="name" key="companyName" />
 					<Column title="联系方式" dataIndex="contactNumber" key="contactNumber" />
 					<Column title="单价 ($/月)" dataIndex="price" key="price" />
+					<Column title="折扣比例" dataIndex="discountPercentage" key="discountPercentage" />
 					<Column
 						title="操作"
 						key="action"
