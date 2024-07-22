@@ -12,8 +12,6 @@ const AllPalletQuantityChart = () => {
 		const fetchData = async () => {
 			try {
 				const response = await allPalletQuantityStat();
-				console.log(response); // 打印 API 返回的数据
-
 				const data = response.data || [];
 				const totalPallets = data.reduce((acc, item) => acc + item.totalPallets, 0);
 
