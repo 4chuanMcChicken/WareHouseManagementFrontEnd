@@ -64,6 +64,15 @@ const formRouter: Array<RouteObject> = [
 					title: "嵌套环形图",
 					key: "nestedChart"
 				}
+			},
+			{
+				path: "/echarts/allPalletQuantityChart",
+				element: lazyLoad(React.lazy(() => import("@/views/echarts/allPalletQuantityChart/index"))),
+				meta: {
+					requiresAuth: true,
+					title: "总板数统计",
+					key: "allPalletQuantityChart"
+				}
 			}
 		]
 	}

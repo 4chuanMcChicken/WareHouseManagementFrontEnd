@@ -138,3 +138,8 @@ export interface PalletByBatch {
 	orderNumber: string;
 	caseAmount: number;
 }
+
+export interface allPalletQuantity {
+	companyName: string;
+	totalPallets: number;
+}

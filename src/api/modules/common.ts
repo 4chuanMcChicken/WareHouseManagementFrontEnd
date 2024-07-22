@@ -9,7 +9,8 @@ import {
 	MonthlyBillDetail,
 	Product,
 	OutBoundProductDetail,
-	PalletByBatch
+	PalletByBatch,
+	allPalletQuantity
 } from "@/api/interface/common";
 import { ResPage } from "@/api/interface/index";
 import http from "@/api";
@@ -120,6 +121,10 @@ export const getPalletsByBatch = (
 // * 获取出库时的货物信息，包括仓库和箱数信息
 export const addOutBoundByBoundRecordId = (boundRecordId: string, quantity: number, happenTime: number) => {
 	return http.post(`/common/addOutBoundByBoundRecordId`, { boundRecordId, quantity, happenTime });
+};
+
+export const allPalletQuantityStat = () => {
+	return http.get<allPalletQuantity[]>(`/common/allPalletQuantityStat`);
 };
 
 // // * 添加公司信息

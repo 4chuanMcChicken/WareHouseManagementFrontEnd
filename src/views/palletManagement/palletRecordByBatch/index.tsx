@@ -24,6 +24,8 @@ const PalletRecordByBatch: React.FC = () => {
 	const [total, setTotal] = useState(0);
 	const [maxQuantity, setMaxQuantity] = useState<number>(0);
 
+	const [loading, setLoading] = useState(false);
+
 	let ModalRef: any = useRef();
 
 	useEffect(() => {
@@ -76,7 +78,9 @@ const PalletRecordByBatch: React.FC = () => {
 	const handleTableChange = async (pagination: TablePaginationConfig) => {
 		setCurrentPage(pagination.current || 1);
 		setPageSize(pagination.pageSize || 10);
+		setLoading(true);
 		const result = await getPalletsByBatch(pagination.current || 1, pagination.pageSize || 10);
+		setLoading(false);
 		setPalletBatchInfo(result.data?.datalist || []);
 	};
 
@@ -146,6 +150,7 @@ const PalletRecordByBatch: React.FC = () => {
 					}}
 					onChange={handleTableChange}
 					rowSelection={rowSelection}
+					loading={loading}
 				>
 					<Column title="货物名" dataIndex="productName" key="name" />
 					<Column title="公司名" dataIndex="companyName" key="companyName" />
