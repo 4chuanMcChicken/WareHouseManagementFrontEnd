@@ -50,7 +50,7 @@ const addCompany: React.FC = () => {
 						<Input />
 					</Form.Item>
 
-					<Form.Item<FieldType> label="联系方式" name="contactNumber" rules={[{ required: true, message: "请输入联系方式!" }]}>
+					<Form.Item<FieldType> label="联系方式" name="contactNumber">
 						<Input />
 					</Form.Item>
 
@@ -58,7 +58,7 @@ const addCompany: React.FC = () => {
 						<InputNumber min={1} />
 					</Form.Item>
 
-					<Form.Item<FieldType> label="折扣比例 ( 0-1, 0.8 = 80% )" name="discountPercentage">
+					<Form.Item<FieldType> label="折扣比例 ( 0.8 = 80% )" name="discountPercentage">
 						<InputNumber max={1} />
 					</Form.Item>
 
