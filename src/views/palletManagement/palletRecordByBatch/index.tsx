@@ -66,7 +66,7 @@ const PalletRecordByBatch: React.FC = () => {
 			setPalletBatchInfo(result.data?.datalist || []);
 			setTotal(result.data?.total || 0);
 		} catch (error) {
-			message.error("获取内容失败");
+			console.log(error);
 		}
 	};
 	const hasSelected = selectedRowKeys.length > 0;
@@ -76,10 +76,14 @@ const PalletRecordByBatch: React.FC = () => {
 	};
 
 	const handleTableChange = async (pagination: TablePaginationConfig) => {
+		const companyName = companyNameRef.current?.input?.value || undefined;
+		const dateRange = dateRangeRef.current;
+		const dateFrom = dateRange?.[0]?.valueOf() || undefined;
+		const dateTo = dateRange?.[1]?.valueOf() || undefined;
 		setCurrentPage(pagination.current || 1);
 		setPageSize(pagination.pageSize || 10);
 		setLoading(true);
-		const result = await getPalletsByBatch(pagination.current || 1, pagination.pageSize || 10);
+		const result = await getPalletsByBatch(pagination.current || 1, pagination.pageSize || 10, companyName, dateFrom, dateTo);
 		setLoading(false);
 		setPalletBatchInfo(result.data?.datalist || []);
 	};
