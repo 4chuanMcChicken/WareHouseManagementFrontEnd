@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, DatePicker, Form, InputNumber, Select, Card } from "antd";
+import { Button, DatePicker, Form, InputNumber, Select, Card, Input } from "antd";
 import type { FormProps } from "antd";
 import { CompanyInfo, Product, OutBoundProductDetail, WareHouseInfo } from "@/api/interface/common";
 import "./index.less";
@@ -16,6 +16,7 @@ type FieldType = {
 	outBoundType: { label: any; key: any; value: any };
 	happenTime: number;
 	targetPalletCaseQuantity: number;
+	comment: string;
 };
 
 const SmartOutBound: React.FC = () => {
@@ -135,6 +136,7 @@ const SmartOutBound: React.FC = () => {
 			const outBoundType = values.outBoundType.value;
 			const targetPalletCaseQuantity = values.targetPalletCaseQuantity;
 			const wareHouseId = values.wareHouseId.key;
+			const comment = values.comment;
 
 			const modalText = getOutBoundText(values);
 			if (ModalRef.current) {
@@ -143,7 +145,7 @@ const SmartOutBound: React.FC = () => {
 					text: modalText,
 					successMessage: "出库成功",
 					onConfirm: () =>
-						confirmOutBound({ quantity, productId, happenTime, outBoundType, targetPalletCaseQuantity, wareHouseId })
+						confirmOutBound({ quantity, productId, happenTime, outBoundType, targetPalletCaseQuantity, wareHouseId, comment })
 				});
 				ModalRef.current.showModal();
 			}
@@ -158,8 +160,8 @@ const SmartOutBound: React.FC = () => {
 	};
 
 	const confirmOutBound = async (outBoundDetail: any) => {
-		const { quantity, productId, happenTime, outBoundType, targetPalletCaseQuantity, wareHouseId } = outBoundDetail;
-		await smartOutBound(productId, quantity, outBoundType, happenTime, targetPalletCaseQuantity, wareHouseId);
+		const { quantity, productId, happenTime, outBoundType, targetPalletCaseQuantity, wareHouseId, comment } = outBoundDetail;
+		await smartOutBound(productId, quantity, outBoundType, happenTime, targetPalletCaseQuantity, wareHouseId, comment);
 	};
 
 	const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = errorInfo => {
@@ -240,6 +242,9 @@ const SmartOutBound: React.FC = () => {
 					</Form.Item>
 					<Form.Item label="出库时间" name="happenTime" rules={[{ required: true, message: "请选择出库时间" }]}>
 						<DatePicker />
+					</Form.Item>
+					<Form.Item<FieldType> label="备注" name="comment">
+						<Input />
 					</Form.Item>
 					<Form.Item wrapperCol={{ offset: 3, span: 16 }}>
 						<Button type="primary" htmlType="submit" loading={loading}>

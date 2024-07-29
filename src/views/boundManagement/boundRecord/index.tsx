@@ -99,6 +99,7 @@ const BoundRecord: React.FC = () => {
 						key="outBoundType"
 						render={outBoundType => (outBoundType ? (outBoundType === "case" ? "箱" : "板") : "板")}
 					/>
+					<Column title="备注" dataIndex="comment" key="comment" />
 				</Table>
 			</Card>
 		</div>

@@ -15,6 +15,7 @@ export interface BoundRecordInfo {
 	companyName: string;
 	productName: string;
 	quantity: number;
+	comment?: string;
 }
 
 export interface allBoundRecordInfo {

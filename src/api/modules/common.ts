@@ -86,9 +86,18 @@ export const smartOutBound = (
 	type: string,
 	happenTime: string,
 	targetPalletCaseQuantity: number,
-	wareHouseId: string
+	wareHouseId: string,
+	comment: string
 ) => {
-	return http.post(`/common/smartOutBound`, { productId, quantity, type, happenTime, targetPalletCaseQuantity, wareHouseId });
+	return http.post(`/common/smartOutBound`, {
+		productId,
+		quantity,
+		type,
+		happenTime,
+		targetPalletCaseQuantity,
+		wareHouseId,
+		comment
+	});
 };
 
 // * 撤销入库或出库
