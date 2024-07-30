@@ -10,337 +10,339 @@ import type { MenuProps } from "antd";
 import * as Icons from "@ant-design/icons";
 import Logo from "./components/Logo";
 import "./index.less";
-
-const menuArray = [
-	{
-		icon: "HomeOutlined",
-		title: "首页",
-		path: "/home/index"
-	},
-	{
-		icon: "ShopOutlined",
-		title: "公司管理",
-		path: "/companyManagement",
-		children: [
-			{
-				icon: "ShopOutlined",
-				path: "/companyManagement/companyInfo",
-				title: "公司信息"
-			},
-			{
-				icon: "ShopOutlined",
-				path: "/companyManagement/addCompany",
-				title: "添加公司"
-			}
-		]
-	},
-	{
-		icon: "ShoppingOutlined",
-		title: "货物管理",
-		path: "/productManagement",
-		children: [
-			{
-				icon: "ShoppingOutlined",
-				path: "/productManagement/productInfo",
-				title: "货物信息"
-			},
-			{
-				icon: "ShoppingOutlined",
-				path: "/productManagement/addProduct",
-				title: "添加货物"
-			}
-		]
-	},
-	{
-		icon: "AreaChartOutlined",
-		title: "出入库管理",
-		path: "/boundManagement",
-		children: [
-			{
-				icon: "UploadOutlined",
-				path: "/boundManagement/addInBound",
-				title: "添加入库"
-			},
-			{
-				icon: "ToolOutlined",
-				path: "/boundManagement/smartOutBound",
-				title: "智能出库"
-			},
-			{
-				icon: "AreaChartOutlined",
-				path: "/boundManagement/boundRecord",
-				title: "出入库记录"
-			}
-		]
-	},
-	{
-		icon: "UnorderedListOutlined",
-		title: "库存管理",
-		children: [
-			{
-				icon: "UnorderedListOutlined",
-				path: "/palletManagement/palletRecordByBatch",
-				title: "整批库存记录"
-			},
-			{
-				icon: "UnorderedListOutlined",
-				path: "/palletManagement/palletRecord",
-				title: "单板库存记录"
-			}
-		]
-	},
-	{
-		icon: "MoneyCollectFilled",
-		title: "账单管理",
-		children: [
-			{
-				icon: "MoneyCollectFilled",
-				path: "/billManagement/monthlyBill",
-				title: "月度账单"
-			}
-		]
-	},
-	// {
-	// 	icon: "AreaChartOutlined",
-	// 	title: "数据大屏",
-	// 	path: "/dataScreen/index"
-	// },
-	// {
-	// 	icon: "TableOutlined",
-	// 	title: "超级表格",
-	// 	path: "/proTable",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/proTable/useHooks",
-	// 			title: "使用 Hooks"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/proTable/useComponent",
-	// 			title: "使用 Component"
-	// 		}
-	// 	]
-	// },
-	// {
-	// 	icon: "FundOutlined",
-	// 	title: "Dashboard",
-	// 	path: "/dashboard",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/dashboard/dataVisualize",
-	// 			title: "数据可视化"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/dashboard/embedded",
-	// 			title: "内嵌页面"
-	// 		}
-	// 	]
-	// },
-	// {
-	// 	icon: "FileTextOutlined",
-	// 	title: "表单 Form",
-	// 	path: "/form",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/form/basicForm",
-	// 			title: "基础 Form"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/form/validateForm",
-	// 			title: "校验 Form"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/form/dynamicForm",
-	// 			title: "动态 Form"
-	// 		}
-	// 	]
-	// },
-	{
-		icon: "PieChartOutlined",
-		title: "Echarts",
-		path: "/echarts",
-		children: [
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/waterChart",
-			// 	title: "水型图"
-			// },
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/columnChart",
-			// 	title: "柱状图"
-			// },
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/lineChart",
-			// 	title: "折线图"
-			// },
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/pieChart",
-			// 	title: "饼图"
-			// },
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/radarChart",
-			// 	title: "雷达图"
-			// },
-			// {
-			// 	icon: "AppstoreOutlined",
-			// 	path: "/echarts/nestedChart",
-			// 	title: "嵌套环形图"
-			// }
-			{
-				icon: "AppstoreOutlined",
-				path: "/echarts/allPalletQuantityChart",
-				title: "总板数统计"
-			}
-		]
-	}
-	// {
-	// 	icon: "ShoppingOutlined",
-	// 	title: "常用组件",
-	// 	path: "/assembly",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/assembly/guide",
-	// 			title: "引导页"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/assembly/svgIcon",
-	// 			title: "Svg 图标"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/assembly/selectIcon",
-	// 			title: "Icon 选择"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/assembly/batchImport",
-	// 			title: "批量导入数据"
-	// 		}
-	// 	]
-	// },
-	// {
-	// 	icon: "ProfileOutlined",
-	// 	title: "菜单嵌套",
-	// 	path: "/menu",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/menu/menu1",
-	// 			title: "菜单1"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/menu/menu2",
-	// 			title: "菜单2",
-	// 			children: [
-	// 				{
-	// 					icon: "AppstoreOutlined",
-	// 					path: "/menu/menu2/menu21",
-	// 					title: "菜单2-1"
-	// 				},
-	// 				{
-	// 					icon: "AppstoreOutlined",
-	// 					path: "/menu/menu2/menu22",
-	// 					title: "菜单2-2",
-	// 					children: [
-	// 						{
-	// 							icon: "AppstoreOutlined",
-	// 							path: "/menu/menu2/menu22/menu221",
-	// 							title: "菜单2-2-1"
-	// 						},
-	// 						{
-	// 							icon: "AppstoreOutlined",
-	// 							path: "/menu/menu2/menu22/menu222",
-	// 							title: "菜单2-2-2"
-	// 						}
-	// 					]
-	// 				},
-	// 				{
-	// 					icon: "AppstoreOutlined",
-	// 					path: "/menu/menu2/menu23",
-	// 					title: "菜单2-3"
-	// 				}
-	// 			]
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/menu/menu3",
-	// 			title: "菜单3"
-	// 		}
-	// 	]
-	// }
-	// {
-	// 	icon: "ExclamationCircleOutlined",
-	// 	title: "错误页面",
-	// 	path: "/error",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/404",
-	// 			title: "404页面"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/403",
-	// 			title: "403页面"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/500",
-	// 			title: "500页面"
-	// 		}
-	// 	]
-	// },
-	// {
-	// 	icon: "PaperClipOutlined",
-	// 	title: "外部链接",
-	// 	path: "/link",
-	// 	children: [
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/link/gitee",
-	// 			title: "Gitee 仓库",
-	// 			isLink: "https://gitee.com/laramie/Hooks-Admin"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/link/github",
-	// 			title: "GitHub 仓库",
-	// 			isLink: "https://github.com/HalseySpicy/Hooks-Admin"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/link/juejin",
-	// 			title: "掘金文档",
-	// 			isLink: "https://juejin.cn/user/3263814531551816/posts"
-	// 		},
-	// 		{
-	// 			icon: "AppstoreOutlined",
-	// 			path: "/link/myBlog",
-	// 			title: "个人博客",
-	// 			isLink: "http://www.spicyboy.cn"
-	// 		}
-	// 	]
-	// }
-];
+import { useTranslation } from "react-i18next";
 
 const LayoutMenu = (props: any) => {
+	const { t } = useTranslation();
 	const { pathname } = useLocation();
 	const { isCollapse, setBreadcrumbList, setAuthRouter, setMenuList: setMenuListAction } = props;
 	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
 	const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+	const menuArray = [
+		{
+			icon: "HomeOutlined",
+			title: t("menu.main"),
+			path: "/home/index"
+		},
+		{
+			icon: "ShopOutlined",
+			title: t("menu.companyManagement"),
+			path: "/companyManagement",
+			children: [
+				{
+					icon: "ShopOutlined",
+					path: "/companyManagement/companyInfo",
+					title: "公司信息"
+				},
+				{
+					icon: "ShopOutlined",
+					path: "/companyManagement/addCompany",
+					title: "添加公司"
+				}
+			]
+		},
+		{
+			icon: "ShoppingOutlined",
+			title: "货物管理",
+			path: "/productManagement",
+			children: [
+				{
+					icon: "ShoppingOutlined",
+					path: "/productManagement/productInfo",
+					title: "货物信息"
+				},
+				{
+					icon: "ShoppingOutlined",
+					path: "/productManagement/addProduct",
+					title: "添加货物"
+				}
+			]
+		},
+		{
+			icon: "AreaChartOutlined",
+			title: "出入库管理",
+			path: "/boundManagement",
+			children: [
+				{
+					icon: "UploadOutlined",
+					path: "/boundManagement/addInBound",
+					title: "添加入库"
+				},
+				{
+					icon: "ToolOutlined",
+					path: "/boundManagement/smartOutBound",
+					title: "智能出库"
+				},
+				{
+					icon: "AreaChartOutlined",
+					path: "/boundManagement/boundRecord",
+					title: "出入库记录"
+				}
+			]
+		},
+		{
+			icon: "UnorderedListOutlined",
+			title: "库存管理",
+			children: [
+				{
+					icon: "UnorderedListOutlined",
+					path: "/palletManagement/palletRecordByBatch",
+					title: "整批库存记录"
+				},
+				{
+					icon: "UnorderedListOutlined",
+					path: "/palletManagement/palletRecord",
+					title: "单板库存记录"
+				}
+			]
+		},
+		{
+			icon: "MoneyCollectFilled",
+			title: "账单管理",
+			children: [
+				{
+					icon: "MoneyCollectFilled",
+					path: "/billManagement/monthlyBill",
+					title: "月度账单"
+				}
+			]
+		},
+		// {
+		// 	icon: "AreaChartOutlined",
+		// 	title: "数据大屏",
+		// 	path: "/dataScreen/index"
+		// },
+		// {
+		// 	icon: "TableOutlined",
+		// 	title: "超级表格",
+		// 	path: "/proTable",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/proTable/useHooks",
+		// 			title: "使用 Hooks"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/proTable/useComponent",
+		// 			title: "使用 Component"
+		// 		}
+		// 	]
+		// },
+		// {
+		// 	icon: "FundOutlined",
+		// 	title: "Dashboard",
+		// 	path: "/dashboard",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/dashboard/dataVisualize",
+		// 			title: "数据可视化"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/dashboard/embedded",
+		// 			title: "内嵌页面"
+		// 		}
+		// 	]
+		// },
+		// {
+		// 	icon: "FileTextOutlined",
+		// 	title: "表单 Form",
+		// 	path: "/form",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/form/basicForm",
+		// 			title: "基础 Form"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/form/validateForm",
+		// 			title: "校验 Form"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/form/dynamicForm",
+		// 			title: "动态 Form"
+		// 		}
+		// 	]
+		// },
+		{
+			icon: "PieChartOutlined",
+			title: "Echarts",
+			path: "/echarts",
+			children: [
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/waterChart",
+				// 	title: "水型图"
+				// },
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/columnChart",
+				// 	title: "柱状图"
+				// },
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/lineChart",
+				// 	title: "折线图"
+				// },
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/pieChart",
+				// 	title: "饼图"
+				// },
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/radarChart",
+				// 	title: "雷达图"
+				// },
+				// {
+				// 	icon: "AppstoreOutlined",
+				// 	path: "/echarts/nestedChart",
+				// 	title: "嵌套环形图"
+				// }
+				{
+					icon: "AppstoreOutlined",
+					path: "/echarts/allPalletQuantityChart",
+					title: "总板数统计"
+				}
+			]
+		}
+		// {
+		// 	icon: "ShoppingOutlined",
+		// 	title: "常用组件",
+		// 	path: "/assembly",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/assembly/guide",
+		// 			title: "引导页"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/assembly/svgIcon",
+		// 			title: "Svg 图标"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/assembly/selectIcon",
+		// 			title: "Icon 选择"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/assembly/batchImport",
+		// 			title: "批量导入数据"
+		// 		}
+		// 	]
+		// },
+		// {
+		// 	icon: "ProfileOutlined",
+		// 	title: "菜单嵌套",
+		// 	path: "/menu",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/menu/menu1",
+		// 			title: "菜单1"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/menu/menu2",
+		// 			title: "菜单2",
+		// 			children: [
+		// 				{
+		// 					icon: "AppstoreOutlined",
+		// 					path: "/menu/menu2/menu21",
+		// 					title: "菜单2-1"
+		// 				},
+		// 				{
+		// 					icon: "AppstoreOutlined",
+		// 					path: "/menu/menu2/menu22",
+		// 					title: "菜单2-2",
+		// 					children: [
+		// 						{
+		// 							icon: "AppstoreOutlined",
+		// 							path: "/menu/menu2/menu22/menu221",
+		// 							title: "菜单2-2-1"
+		// 						},
+		// 						{
+		// 							icon: "AppstoreOutlined",
+		// 							path: "/menu/menu2/menu22/menu222",
+		// 							title: "菜单2-2-2"
+		// 						}
+		// 					]
+		// 				},
+		// 				{
+		// 					icon: "AppstoreOutlined",
+		// 					path: "/menu/menu2/menu23",
+		// 					title: "菜单2-3"
+		// 				}
+		// 			]
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/menu/menu3",
+		// 			title: "菜单3"
+		// 		}
+		// 	]
+		// }
+		// {
+		// 	icon: "ExclamationCircleOutlined",
+		// 	title: "错误页面",
+		// 	path: "/error",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/404",
+		// 			title: "404页面"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/403",
+		// 			title: "403页面"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/500",
+		// 			title: "500页面"
+		// 		}
+		// 	]
+		// },
+		// {
+		// 	icon: "PaperClipOutlined",
+		// 	title: "外部链接",
+		// 	path: "/link",
+		// 	children: [
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/link/gitee",
+		// 			title: "Gitee 仓库",
+		// 			isLink: "https://gitee.com/laramie/Hooks-Admin"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/link/github",
+		// 			title: "GitHub 仓库",
+		// 			isLink: "https://github.com/HalseySpicy/Hooks-Admin"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/link/juejin",
+		// 			title: "掘金文档",
+		// 			isLink: "https://juejin.cn/user/3263814531551816/posts"
+		// 		},
+		// 		{
+		// 			icon: "AppstoreOutlined",
+		// 			path: "/link/myBlog",
+		// 			title: "个人博客",
+		// 			isLink: "http://www.spicyboy.cn"
+		// 		}
+		// 	]
+		// }
+	];
 
 	// 刷新页面菜单保持高亮
 	useEffect(() => {

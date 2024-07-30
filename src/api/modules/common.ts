@@ -41,8 +41,8 @@ export const addOutBoundRecord = (pallets: string[]) => {
 };
 
 // * 获得出入库记录
-export const getBoundRecordsInfo = (type: string) => {
-	return http.get<allBoundRecordInfo>(`/common/getBoundRecords`, { type });
+export const getBoundRecordsInfo = (type?: string, companyName?: String, dateFrom?: number, dateTo?: number) => {
+	return http.get<allBoundRecordInfo>(`/common/getBoundRecords`, { type, companyName, dateFrom, dateTo });
 };
 
 // * 获得出入库记录

@@ -24,5 +24,9 @@ export default {
 		personalData: "Personal Data",
 		changePassword: "Change Password",
 		logout: "Logout"
+	},
+	menu: {
+		main: "Home Page",
+		companyManagement: "Company Management"
 	}
 };

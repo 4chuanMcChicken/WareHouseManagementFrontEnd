@@ -24,5 +24,9 @@ export default {
 		personalData: "个人资料",
 		changePassword: "修改密码",
 		logout: "退出登录"
+	},
+	menu: {
+		main: "首页",
+		companyManagement: "公司管理"
 	}
 };
