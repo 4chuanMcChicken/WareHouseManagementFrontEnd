@@ -10,10 +10,8 @@ import type { MenuProps } from "antd";
 import * as Icons from "@ant-design/icons";
 import Logo from "./components/Logo";
 import "./index.less";
-import { useTranslation } from "react-i18next";
 
 const LayoutMenu = (props: any) => {
-	const { t } = useTranslation();
 	const { pathname } = useLocation();
 	const { isCollapse, setBreadcrumbList, setAuthRouter, setMenuList: setMenuListAction } = props;
 	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
@@ -22,12 +20,12 @@ const LayoutMenu = (props: any) => {
 	const menuArray = [
 		{
 			icon: "HomeOutlined",
-			title: t("menu.main"),
+			title: "首页",
 			path: "/home/index"
 		},
 		{
 			icon: "ShopOutlined",
-			title: t("menu.companyManagement"),
+			title: "公司管理",
 			path: "/companyManagement",
 			children: [
 				{
