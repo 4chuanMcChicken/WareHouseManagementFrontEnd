@@ -98,7 +98,7 @@ const BoundRecord: React.FC = () => {
 					<div className="search-bar-left">
 						<div className="input-container">
 							<span>公司名称:</span>
-							<Input ref={companyNameRef} placeholder="请输入货物名称" />
+							<Input ref={companyNameRef} placeholder="请输入公司名称" />
 						</div>
 						<div className="input-container">
 							<span>记录类型:</span>
