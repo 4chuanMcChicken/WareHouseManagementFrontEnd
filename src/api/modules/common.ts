@@ -115,6 +115,7 @@ export const getPalletsByBatch = (
 	page: number,
 	limit: number,
 	companyName?: string,
+	productName?: string,
 	inBoundTimeFrom?: number,
 	inBoundTimeTo?: number
 ) => {
@@ -122,6 +123,7 @@ export const getPalletsByBatch = (
 		page,
 		limit,
 		companyName,
+		productName,
 		inBoundTimeFrom,
 		inBoundTimeTo
 	});

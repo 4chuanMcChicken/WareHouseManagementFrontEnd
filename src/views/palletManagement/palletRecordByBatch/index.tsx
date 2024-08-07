@@ -13,6 +13,7 @@ const { Column } = Table;
 
 const PalletRecordByBatch: React.FC = () => {
 	const companyNameRef = useRef<InputRef>(null);
+	const productNameRef = useRef<InputRef>(null);
 	const dateRangeRef = useRef<RangePickerProps["value"]>(null);
 
 	const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -56,13 +57,14 @@ const PalletRecordByBatch: React.FC = () => {
 
 	const handleSearch = async () => {
 		const companyName = companyNameRef.current?.input?.value || undefined;
+		const productName = productNameRef.current?.input?.value || undefined;
 		const dateRange = dateRangeRef.current;
 
 		const dateFrom = dateRange?.[0]?.valueOf() || undefined;
 		const dateTo = dateRange?.[1]?.valueOf() || undefined;
 
 		try {
-			const result = await getPalletsByBatch(currentPage, pageSize, companyName, dateFrom, dateTo);
+			const result = await getPalletsByBatch(currentPage, pageSize, companyName, productName, dateFrom, dateTo);
 			setPalletBatchInfo(result.data?.datalist || []);
 			setTotal(result.data?.total || 0);
 		} catch (error) {
@@ -121,6 +123,10 @@ const PalletRecordByBatch: React.FC = () => {
 						<div className="input-container">
 							<span>公司名称:</span>
 							<Input ref={companyNameRef} placeholder="请输入公司名称" />
+						</div>
+						<div className="input-container">
+							<span>货物名称:</span>
+							<Input ref={productNameRef} placeholder="请输入货物名称" />
 						</div>
 						<div className="input-container-product">
 							<span>入库时间:</span>
