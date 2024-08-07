@@ -79,13 +79,21 @@ const PalletRecordByBatch: React.FC = () => {
 
 	const handleTableChange = async (pagination: TablePaginationConfig) => {
 		const companyName = companyNameRef.current?.input?.value || undefined;
+		const productName = productNameRef.current?.input?.value || undefined;
 		const dateRange = dateRangeRef.current;
 		const dateFrom = dateRange?.[0]?.valueOf() || undefined;
 		const dateTo = dateRange?.[1]?.valueOf() || undefined;
 		setCurrentPage(pagination.current || 1);
 		setPageSize(pagination.pageSize || 10);
 		setLoading(true);
-		const result = await getPalletsByBatch(pagination.current || 1, pagination.pageSize || 10, companyName, dateFrom, dateTo);
+		const result = await getPalletsByBatch(
+			pagination.current || 1,
+			pagination.pageSize || 10,
+			companyName,
+			productName,
+			dateFrom,
+			dateTo
+		);
 		setLoading(false);
 		setPalletBatchInfo(result.data?.datalist || []);
 	};
