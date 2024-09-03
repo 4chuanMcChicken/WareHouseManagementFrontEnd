@@ -79,6 +79,7 @@ export interface MonthlyBill {
 	ifPaid: boolean;
 	discountedAmount?: number;
 	discountPercentage?: number;
+	afterTaxAmount?: number;
 }
 
 export interface MonthlyBillDetail {
@@ -100,6 +101,8 @@ export interface DetailContent {
 	amount: number;
 	happenTime?: number;
 	type: string;
+	billedMonthTimestamp?: string;
+	createTime?: number;
 }
 
 export interface MonthlyBills {

@@ -44,11 +44,20 @@ const App: React.FC = () => {
 				if (record.type === "case") {
 					return `on ${moment(record.happenTime).format("YYYY-MM-DD")}`;
 				} else {
-					const nowDate = moment();
+					// const billedMonthTimestamp = record.billedMonthTimestamp;
+					// const nowDate = moment();
+					// const dayInDate = moment(dayIn);
+					// const currentDate = moment(nowDate).subtract(1, "months").date(dayInDate.date());
+					// const nextMonthDate = moment(nowDate).date(dayInDate.date());
+					// return `${currentDate.format("YYYY-MM-DD")} to ${nextMonthDate.format("YYYY-MM-DD")}`;
+
+					const billedMonthTimestamp = parseInt(record.billedMonthTimestamp as string);
 					const dayInDate = moment(dayIn);
-					const currentDate = moment(nowDate).subtract(1, "months").date(dayInDate.date());
-					const nextMonthDate = moment(nowDate).date(dayInDate.date());
-					return `${currentDate.format("YYYY-MM-DD")} to ${nextMonthDate.format("YYYY-MM-DD")}`;
+
+					let startDate = moment(billedMonthTimestamp).date(dayInDate.date());
+					let endDate = moment(startDate).add(1, "months");
+
+					return `${startDate.format("YYYY-MM-DD")} to ${endDate.format("YYYY-MM-DD")}`;
 				}
 			}
 		},
@@ -174,7 +183,9 @@ const App: React.FC = () => {
 			const dataWithKeys =
 				res.data?.details.map((detailContent: DetailContent, index: number) => ({
 					...detailContent,
-					key: index
+					key: index,
+					billedMonthTimestamp: record.billedMonthTimestamp,
+					createTime: record.createTime
 				})) || [];
 			setDetailContent(dataWithKeys);
 		} catch (e) {
