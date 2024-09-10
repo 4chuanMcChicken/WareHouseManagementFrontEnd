@@ -1,4 +1,3 @@
-import md5 from "js-md5";
 import { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,6 @@ const LoginForm = (props: any) => {
 	const onFinish = async (loginForm: Login.ReqLoginForm) => {
 		try {
 			setLoading(true);
-			loginForm.password = md5(loginForm.password);
 			const { data } = await loginApi(loginForm);
 			// setToken(data?.token);
 			setToken(data?.token);
