@@ -33,7 +33,11 @@ const App: React.FC = () => {
 				if (record.type === "case") {
 					return `Case out service fee: ${productName}`;
 				} else {
-					return `Storage : ${productName}`;
+					if (record.ifOversize) {
+						return `Storage : ${productName} (oversize)`;
+					} else {
+						return `Storage : ${productName}`;
+					}
 				}
 			}
 		},

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Table, Tag, message, Input, Card } from "antd";
+import { Button, Table, Tag, message, Input, Card, DatePicker } from "antd";
 import type { TableColumnsType } from "antd";
 import type { InputRef } from "antd";
 import { Pallet } from "@/api/interface/common";
@@ -86,6 +86,7 @@ const App: React.FC = () => {
 		successMessage: "",
 		onConfirm: () => Promise.resolve() // Return a resolved Promise
 	});
+	const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(null);
 	let ModalRef: any = useRef();
 	const companyNameRef = useRef<InputRef>(null);
 	const productNameRef = useRef<InputRef>(null);
@@ -94,6 +95,14 @@ const App: React.FC = () => {
 	useEffect(() => {
 		fetchData();
 	}, []);
+
+	const handleDateChange = (date: moment.Moment | null) => {
+		if (date) {
+			const adjustedDate = date.set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+			setSelectedDate(adjustedDate);
+			console.log("Selected Date Timestamp (ms):", adjustedDate.valueOf());
+		}
+	};
 
 	const fetchData = async () => {
 		try {
@@ -128,6 +137,10 @@ const App: React.FC = () => {
 		if (selectedRows.every(item => item.remainCase && item.remainCase !== 0)) {
 			message.error("当前板为非完整板，不可出库");
 			return; // 退出整个函数
+		}
+
+		if (!selectedDate) {
+			setSelectedDate(moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 }));
 		}
 
 		if (!selectedRows.every(item => item.companyName === firstCompanyName && item.productName === firstProductName)) {
@@ -168,7 +181,7 @@ const App: React.FC = () => {
 	// };
 
 	const handleConfirmed = async () => {
-		await addOutBoundRecord(selectedRowKeys);
+		await addOutBoundRecord(selectedRowKeys, selectedDate ? selectedDate.valueOf() : moment.now());
 		setSelectedRowKeys([]);
 		await fetchData();
 	};
@@ -231,6 +244,7 @@ const App: React.FC = () => {
 						<Button type="primary" onClick={confirmOutBound} disabled={!hasSelected} style={{ marginRight: "30px" }}>
 							出库
 						</Button>
+						<DatePicker placeholder="选择出库日期" onChange={handleDateChange} style={{ marginRight: "10px" }} />
 						{/* <Button type="primary" onClick={confirmCancleOutBound} disabled={!hasSelected}>
 						撤销出库
 					</Button> */}
@@ -241,7 +255,7 @@ const App: React.FC = () => {
 						title={modalInfo!.title}
 						onConfirm={modalInfo!.onConfirm}
 						successMessage={modalInfo!.successMessage}
-						modalText="确认后，此板货物将整板出库，且出库时间为当前时间"
+						modalText={`确认后，此板货物将整板出库，且出库时间为 ${selectedDate}`}
 					></ConfirmModal>
 				</div>
 			</Card>

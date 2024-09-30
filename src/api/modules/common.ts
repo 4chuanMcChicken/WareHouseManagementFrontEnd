@@ -36,8 +36,8 @@ export const addInBoundRecord = (inBoundRecord: InBoundRecord) => {
 };
 
 // * 添加出库记录
-export const addOutBoundRecord = (pallets: string[]) => {
-	return http.post(`/common/addOutBoundRecord`, { pallets });
+export const addOutBoundRecord = (pallets: string[], outBoundDate: number) => {
+	return http.post(`/common/addOutBoundRecord`, { pallets, outBoundDate });
 };
 
 // * 获得出入库记录

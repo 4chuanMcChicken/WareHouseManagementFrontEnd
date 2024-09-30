@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, DatePicker, Form, Input, InputNumber, Select, Card } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select, Card, Checkbox } from "antd";
 import type { FormProps } from "antd";
 import { CompanyInfo, InBoundRecord, WareHouseInfo, Product } from "@/api/interface/common";
 import "./index.less";
@@ -17,6 +17,7 @@ type FieldType = {
 	happenTime: number;
 	comment?: string;
 	orderNumber?: string;
+	ifOversize?: boolean;
 };
 
 interface ModalInfo {
@@ -73,6 +74,7 @@ const AddInBound: React.FC = () => {
 			// const companyId = companyFormRef.current.getFieldValue("companyId");
 			// const wareHouseId = companyFormRef.current.getFieldValue("wareHouseId");
 			const happenTime = moment(values.happenTime).startOf("day").add(12, "hours").valueOf();
+			console.log(values);
 
 			if (values.caseAmount === null) {
 				values.caseAmount = undefined;
@@ -85,7 +87,8 @@ const AddInBound: React.FC = () => {
 				quantity: values.quantity,
 				caseAmount: values.caseAmount,
 				comment: values.comment,
-				orderNumber: values.orderNumber
+				orderNumber: values.orderNumber,
+				ifOversize: values.ifOversize
 			};
 
 			const modalText = getInBoundText(values);
@@ -193,6 +196,9 @@ const AddInBound: React.FC = () => {
 					</Form.Item>
 					<Form.Item<FieldType> label="单号" name="orderNumber">
 						<Input />
+					</Form.Item>
+					<Form.Item<FieldType> label="Oversize" name="ifOversize" valuePropName="checked">
+						<Checkbox />
 					</Form.Item>
 					<Form.Item wrapperCol={{ offset: 3, span: 16 }}>
 						<Button type="primary" htmlType="submit" loading={loading}>

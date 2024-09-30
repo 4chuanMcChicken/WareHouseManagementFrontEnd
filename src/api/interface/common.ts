@@ -42,6 +42,7 @@ export interface InBoundRecord {
 	caseAmount?: number;
 	orderNumber?: string;
 	comment?: string;
+	ifOversize?: boolean;
 }
 
 export interface Pallet {
@@ -61,6 +62,7 @@ export interface Pallet {
 	dayOut?: number;
 	remainCase?: number;
 	caseAmount?: number;
+	ifOversize?: boolean;
 }
 
 export interface Pallets {
@@ -103,6 +105,7 @@ export interface DetailContent {
 	type: string;
 	billedMonthTimestamp?: string;
 	createTime?: number;
+	ifOversize?: boolean;
 }
 
 export interface MonthlyBills {
